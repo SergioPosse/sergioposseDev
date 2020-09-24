@@ -1,8 +1,12 @@
 <script>
-	// import background from '../public/assets/background.jpg';
 	import About from './About.svelte';
 	import Nav from './Nav.svelte';
 	import Footer from './Footer.svelte';
+	import { setContext } from 'svelte'
+
+
+	let showFooter = false;
+
 
 	let skillsEl;
 	let whoEl;
@@ -30,28 +34,28 @@
 
 	 	whoEl.style.setProperty('--x', x + 'px');
 	 	  whoEl.style.setProperty('--y', y + 'px');
+	}
 
-}
+	const openFooter = ()=>{
+		showFooter=!showFooter;
+	}
+	setContext('showingFooter', openFooter);
+
 </script>
 
 
-<main  on:touchmove={(e)=>handleTouchMove(e)}>
+<main  >
 	<Nav></Nav>
-	<!-- <background>{@html background}</background> -->
 	<About bind:skillsEl={ skillsEl } bind:whoEl={ whoEl }></About>
+	{#if (showFooter===true)}
 	<Footer></Footer>
+	{:else}
+	<div class="button-footer" on:click={ openFooter } ><img src="/images/up.png" alt="open-footer" /></div>
+	
+	{/if}
 </main>
 
 <style>
-	/* background {
-		position: fixed;
-		width:100%;
-		height:100%;
-		z-index:-1;
-		left:0;
-		top:0;
-		opacity: 0.5;
-	} */
 	main {
 		background-image: url('/images/orion-nebula-big.jpg');
 		background-repeat: no-repeat;
@@ -59,13 +63,34 @@
 		/* background-position-x: -300px; */
 		background-position: center center;
 		background-color:black;
-		height:100vh;
 		width:100%;
+		height:100vh;
 		text-align: center;
 		margin:0 !important;
 		padding:0 !important;
 		animation: backfloat 5s infinite alternate;
+		display:flex;
+		flex-direction:column;
 
+	}
+	.button-footer img{
+		position: absolute;
+		top:30%;
+		height:60% !important;
+		filter:invert();
+		cursor:pointer;
+		
+	}
+	.button-footer{
+		position:relative;
+		color:white;
+		padding:2%;
+		margin:0;
+		display:flex;
+		align-content:center;
+		justify-items:center;
+		align-items:center;
+		justify-content: space-evenly;
 	}
 	@keyframes backfloat{
 		0%{
@@ -90,6 +115,19 @@
 		height:auto;
 		animation: backfloat2 5s infinite alternate;	
 		}
+		.button-footer img{
+		position: relative;
+		width:20%;
+		height:100% !important;
+		filter:invert();
+		cursor:pointer;
+		
+	}
+	.button-footer{
+		position:relative;
+		color:white;
+		z-index:400;        
+	}
 	}
 
 </style>

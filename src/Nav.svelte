@@ -17,15 +17,14 @@
         align-content: space-between;
         justify-content:space-around;
         flex-direction: row;
-        height:7%;
+        height:7vh !important;
         width:100%;
-        z-index: -2;
+        z-index: 100;
         background: rgb(91,43,152);
         background: linear-gradient(14deg, rgba(91,43,152,1) 0%, rgba(121,9,81,1) 89%);
         color:#b8b8b6;
         margin:0 0 0 0;
         padding:0 0 0 0;
-
 	}
     .about:hover, .portfolio:hover{
         background-color:rgba(239, 129, 129, 0.4);
