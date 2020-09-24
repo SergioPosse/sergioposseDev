@@ -44,6 +44,9 @@
 	@media (max-width: 640px) {
 		nav{
 			height:10vh !important;
+            width:100vw;
+            position:fixed;
+            z-index:300;
 		}
 	}
 </style>

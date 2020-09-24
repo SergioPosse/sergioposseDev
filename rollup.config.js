@@ -3,6 +3,8 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+import svg from 'rollup-plugin-svelte-svg';
+
 
 
 const production = !process.env.ROLLUP_WATCH;
@@ -34,7 +36,10 @@ export default {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'public/build/bundle.js'
+		file: 'public/build/bundle.js'	
+		// gmail: '/images/gmail.svg',
+		// github: '/images/github.svg',
+		// whatsapp: '/images/whatsapp.svg'
 	},
 	plugins: [
 		svelte({
@@ -68,7 +73,11 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		production && terser()
+		production && terser(),
+		svg({
+			// process SVG to DOM Node or String. Default: false
+			stringify: false
+		  })
 	],
 	watch: {
 		clearScreen: false

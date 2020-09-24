@@ -1,6 +1,6 @@
 <script>
-	let skillsEl;
-	let whoEl;
+	export let skillsEl;
+	export let whoEl;
 
 		const handleMousemove = (event, element)=>{
 			let rect = event.target.getBoundingClientRect();
@@ -16,6 +16,8 @@
 			  }
 			  
 		}
+
+		
 
 </script>
 
@@ -63,7 +65,7 @@
 		font-weight: 100;
 		border-radius: 0.5;
 		width:70%;
-		height:93%;
+		height:83%;
 		margin: auto;
 		box-shadow: 0 15px 18px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 		transition: 0.3s;
@@ -71,7 +73,7 @@
 	}
 	section{
 		position:relative;
-		background-color: rgba(78, 23, 103, 0.17);
+		background-color: rgba(78, 23, 103, 0.35);
 		color:#e7e7e7 !important;
 		height:100%;
 		max-height: 30%;
@@ -86,7 +88,7 @@
 		margin:5px;
 		border-radius:6%;
 		padding:10%;
-		font-size: 100%;
+		font-size: 90%;
 	}
 	.row{
 		display:flex;
@@ -100,6 +102,68 @@
   color: white !important;
   outline: none;
   position:relative;
+}
+.card-over:before{
+	position:absolute;
+	content:'';
+	height:0;
+	width:0;
+	border:0.5px solid transparent;
+	bottom:0;
+	left:0;
+	box-sizing:border-box;
+	animation: bordershine 2s infinite;
+	border-bottom:none !important;
+	border-right:none !important;
+}
+.card-over:after{
+	position:absolute;
+	content:'';
+	height:0;
+	width:0;
+	border:0.5px solid transparent;
+	top:0;
+	right:0;
+	box-sizing:border-box;
+	animation: bordershine2 2s infinite;
+	border-top:none !important;
+	border-left:none !important;
+}
+.card-over:hover:before, .card-over:hover:after{
+	border:none !important;
+}
+@keyframes bordershine{
+	50%{
+		height:100%;
+		width:0%;
+		border-bottom:none !important;
+		border-right:none !important;
+		border:1px solid  rgb(247, 27, 181);
+	}
+	100%{
+		height:100%;
+		width:100%;
+		border-bottom:none !important;
+		border-right:none !important;
+		border:1px solid white;
+	}
+}
+@keyframes bordershine2{
+	50%{
+		width:0%;
+		height:100%;
+		border-top:none !important;
+		border-left:none !important;
+		border:1px solid white;
+	}
+	100%{
+		height:100%;
+		width:100%;
+		border-top:none !important;
+		border-left:none !important;
+		border:1px solid rgb(247, 27, 181);
+	}
+
 }
 a{
 	z-index:100;
@@ -115,7 +179,7 @@ a{
   	top: var(--y);
   	width: var(--size);
   	height: var(--size);
-  	background: radial-gradient(circle closest-side, rgb(36, 207, 20,0.5), transparent);
+  	background: radial-gradient(circle closest-side, rgba(255, 255, 255, 0.5), transparent);
   	transform: translate(-50%, -50%);
   	transition: width 0.2s ease, height 0.2s ease;
 }
@@ -125,6 +189,8 @@ a{
 
 	.card-over{
 		transition: 1s;
+		border:none;
+		outline:none;
 	}
 	.card-over p, .card-over strong{
 		color:transparent;
@@ -133,6 +199,7 @@ a{
 	.card-over:hover{
 		background-color:rgba(75, 12, 128, 0.89);
 		transition: 1s;
+		border:0px !important;
 	}
 	.card-over:hover p, .card-over:hover strong{
 		color:white !important;
@@ -152,7 +219,13 @@ a{
 			width:100%;
 		}
 		.about{
+			padding-top:12%;
+			padding-bottom:20%;
 			flex-direction: column;
+			flex-wrap: nowrap !important;
+		}
+		section{
+			font-size: 80%;
 		}
 	}
 </style>
