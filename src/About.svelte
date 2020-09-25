@@ -221,7 +221,7 @@ a{
 		}
 		.about{
 			padding-top:12%;
-			padding-bottom:20%;
+			padding-bottom:30%;
 			flex-direction: column;
 			flex-wrap: nowrap !important;
 		}

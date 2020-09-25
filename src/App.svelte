@@ -2,21 +2,29 @@
 	import About from './About.svelte';
 	import Nav from './Nav.svelte';
 	import Footer from './Footer.svelte';
+	import Social from './Social.svelte';
 	import { setContext } from 'svelte'
+	import { fade } from 'svelte/transition';
+	import { watchResize } from "svelte-watch-resize";
 
 
-	let showFooter = false;
+	var showFooter = false;
+	let openf=false;
+	let reso
 
+	const resize = ()=>{
+		reso = window.innerWidth;
+		if(reso<=640){
+			showFooter=true;
+		}
+		if(reso>640){
+			showFooter=false;
+		}
+	}
+	
 
 	let skillsEl;
 	let whoEl;
-	// const handleMouseMove = (e)=>{
-	// 	let rect = e.target.getBoundingClientRect();
-	// 	let x = e.clientX - rect.left;
-	// 	let y = e.clientY - rect.top;
-	// 	console.log("mousex: "+x);
-	// 	console.log("mousey: "+y);
-	// }
 
 	const handleTouchMove = (e)=>{
 
@@ -37,21 +45,24 @@
 	}
 
 	const openFooter = ()=>{
-		showFooter=!showFooter;
+	
+		if(reso>640){
+			openf=!openf;
+		}
 	}
 	setContext('showingFooter', openFooter);
-
 </script>
 
-
-<main  >
+<main  use:watchResize={resize} >
 	<Nav></Nav>
+	<Social></Social>
 	<About bind:skillsEl={ skillsEl } bind:whoEl={ whoEl }></About>
-	{#if (showFooter===true)}
+	{#if ((showFooter===true)||(openf===true) )}
 	<Footer></Footer>
 	{:else}
-	<div class="button-footer" on:click={ openFooter } ><img src="/images/up.png" alt="open-footer" /></div>
-	
+	<div transition:fade class="button-footer" on:click={ openFooter } >
+		<img src="/images/up.png" alt="open-footer" />
+	</div>
 	{/if}
 </main>
 
@@ -60,7 +71,6 @@
 		background-image: url('/images/orion-nebula-big.jpg');
 		background-repeat: no-repeat;
 		background-size: stretch;
-		/* background-position-x: -300px; */
 		background-position: center center;
 		background-color:black;
 		width:100%;
@@ -71,7 +81,6 @@
 		animation: backfloat 5s infinite alternate;
 		display:flex;
 		flex-direction:column;
-
 	}
 	.button-footer img{
 		position: absolute;
@@ -110,24 +119,23 @@
 	}
 	@media (max-width: 640px) {
 		main {
-		background-image: url('/images/orion-nebula-small.jpg');
-		background-size: 60% 100%;
-		height:auto;
-		animation: backfloat2 5s infinite alternate;	
+			background-image: url('/images/orion-nebula-small.jpg');
+			background-size: 60% 100%;
+			height:auto;
+			animation: backfloat2 5s infinite alternate;	
 		}
 		.button-footer img{
-		position: relative;
-		width:20%;
-		height:100% !important;
-		filter:invert();
-		cursor:pointer;
-		
-	}
-	.button-footer{
-		position:relative;
-		color:white;
-		z-index:400;        
-	}
+			position: relative;
+			width:20%;
+			height:100% !important;
+			filter:invert();
+			cursor:pointer;	
+		}
+		.button-footer{
+			position:relative;
+			color:white;
+			z-index:400;
+		}
 	}
 
 </style>
