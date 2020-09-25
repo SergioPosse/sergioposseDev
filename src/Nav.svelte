@@ -1,26 +1,14 @@
-<script>
-    let visible=false;
 
-    const clickMenu = ()=>{
-        visible=!visible;  
-    }
-
-    const handlePdfClick = ()=>{
-        window.open('/cv-sergiodavidposse.pdf');    
-    }
-    
-</script>
 
 
 	<nav>
-        <div on:mouseout={clickMenu} class={visible? "menu-modal visible" : "menu-modal invisible"}>
-                <h4 style="color:white;background-color:black">Sergio David Posse</h4>
-            <span style="background-color:rgb(158, 226, 242,0);color:rgb(224, 255, 255,0.7);">Leave a message in this site</span>
-            <span  on:click={ handlePdfClick } style="background-color:rgb(224, 100, 100,0);color:rgb(224, 255, 255,0.7););">View my formal resume</span>
-            <!-- <span style="background-color:rgb(89, 89, 89,0.5);color:white;">Github</span>
-            <span style="background-color:#5CF77F;">Whatsapp</span>
-            <span style="background-color:white;">Gmail</span> -->
+        {#if (!hideMenu)}
+        <div bind:this={modalMenu} class="menu-modal">
+            <h4 class="menu-modal-item" style="color:white;background-color:black">Sergio David Posse</h4>
+            <span class="menu-modal-item" style="background-color:rgb(158, 226, 242,0);color:rgb(224, 255, 255,0.7);">Leave a message in this site</span>
+            <span class="menu-modal-item" on:click={ handlePdfClick } style="background-color:rgb(224, 100, 100,0);color:rgb(224, 255, 255,0.7););">View my formal resume</span>
         </div>
+        {/if}
         <img on:click={clickMenu} src="/images/menu.png" alt="menu"/>
         <div class="about">
             About
@@ -29,6 +17,29 @@
             Portfolio
         </div>
     </nav>
+
+    <script>
+        import { getContext, onMount, setContext } from 'svelte';
+        //lo que exporto aca tengo que hacer un bind en el elemento donde quiero usarlo
+
+        export let hideMenu;
+
+        export let modalMenu;
+
+        let visible=false;
+    
+        const clickMenu = ()=>{
+            hideMenu=false;  
+        }
+    
+        const handlePdfClick = ()=>{
+            window.open('/cv-sergiodavidposse.pdf');    
+        }
+           
+    </script>
+
+
+
 
 <style>
     h4{

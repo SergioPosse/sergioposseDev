@@ -3,14 +3,25 @@
 	import Nav from './Nav.svelte';
 	import Footer from './Footer.svelte';
 	import Social from './Social.svelte';
-	import { setContext } from 'svelte'
+	import { onMount, setContext } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { watchResize } from "svelte-watch-resize";
 
 
 	var showFooter = false;
 	let openf=false;
-	let reso
+	let reso;
+
+
+	let hideMenu;
+
+	let modalMenu;
+
+	onMount(()=>{
+		window.addEventListener("mousemove",handleClickOutside);
+		console.dir(modalMenu);
+		hideMenu=true;
+	})
 
 	const resize = ()=>{
 		reso = window.innerWidth;
@@ -26,35 +37,56 @@
 	let skillsEl;
 	let whoEl;
 
-	const handleTouchMove = (e)=>{
+	// const handleTouchMove = (e)=>{
 
-	let touchLocation = e.targetTouches[0];
-	console.log(touchLocation);
-	let pageX = Math.floor((touchLocation.screenX-touchLocation.target.offsetWidth)) + "px";
-	let pageY = Math.floor((touchLocation.screenY-touchLocation.target.offsetHeight)) + "px";
-	console.log("pagex: "+pageX);
-	console.log("pagey: "+pageY);
-	   let x =pageX;
-	   let y =pageY;
+	// let touchLocation = e.targetTouches[0];
+	// console.log(touchLocation);
+	// let pageX = Math.floor((touchLocation.screenX-touchLocation.target.offsetWidth)) + "px";
+	// let pageY = Math.floor((touchLocation.screenY-touchLocation.target.offsetHeight)) + "px";
+	// console.log("pagex: "+pageX);
+	// console.log("pagey: "+pageY);
+	//    let x =pageX;
+	//    let y =pageY;
 
-	 	skillsEl.style.setProperty('--x', x + 'px');
-	 	  skillsEl.style.setProperty('--y', y + 'px');
+	//  	skillsEl.style.setProperty('--x', x + 'px');
+	//  	  skillsEl.style.setProperty('--y', y + 'px');
 
-	 	whoEl.style.setProperty('--x', x + 'px');
-	 	  whoEl.style.setProperty('--y', y + 'px');
-	}
+	//  	whoEl.style.setProperty('--x', x + 'px');
+	//  	  whoEl.style.setProperty('--y', y + 'px');
+	// }
 
 	const openFooter = ()=>{
-	
 		if(reso>640){
 			openf=!openf;
 		}
 	}
+
 	setContext('showingFooter', openFooter);
+
+	const handleClickOutside = (event)=> {
+		// console.table(modalMenu);
+		if(hideMenu===false){
+			let x = parseInt(event.clientX);
+		let y = parseInt(event.clientY);
+		console.log("x: "+x," y: "+y);
+		let modalx = parseInt(modalMenu.clientWidth);
+		let modaly = parseInt(modalMenu.clientHeight);
+		console.log("mx: "+modalx+" my: "+modaly);
+		if((x>modalx)||(y>modaly)){
+			hideMenu=true;
+			console.log("hide modal menu...");
+		}
+		else{
+				console.log("dont hide menu...");
+		}
+		// document.removeEventListener("mousedown", handleClickOutside);
+		}
+		
+    }   
 </script>
 
-<main  use:watchResize={resize} >
-	<Nav></Nav>
+<main use:watchResize={resize} >
+	<Nav bind:modalMenu={modalMenu} bind:hideMenu={hideMenu}></Nav>
 	<Social></Social>
 	<About bind:skillsEl={ skillsEl } bind:whoEl={ whoEl }></About>
 	{#if ((showFooter===true)||(openf===true) )}
@@ -81,6 +113,7 @@
 		animation: backfloat 5s infinite alternate;
 		display:flex;
 		flex-direction:column;
+		z-index:600;
 	}
 	.button-footer img{
 		position: absolute;
