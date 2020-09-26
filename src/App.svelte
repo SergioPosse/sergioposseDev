@@ -20,7 +20,7 @@
 	let canvasSocialSide;
 
 	onMount(()=>{
-		window.addEventListener("mousemove",handleClickOutside);
+		window.addEventListener("mousemove",handleMouseOutside);
 		console.dir(modalMenu);
 		hideMenu=true;
 	})
@@ -67,27 +67,35 @@
 
 	const matchElementEvent = (element, event)=>{
 		let x = parseInt(event.clientX);
-		let y = parseInt(event.clientY);element
-		console.log("x: "+x," y: "+y);
-		let modalx = parseInt(element.clientWidth);
-		let modaly = parseInt(element.clientHeight);
-		console.log("mx: "+modalx+" my: "+modaly);
-		if((x>modalx)||(y>modaly)){
-			console.log("hide modal menu...");
+		let y = parseInt(event.clientY);
+		console.log("mouse x: "+x," mouse y: "+y);
+
+
+		let top = parseInt(element.offsetTop);
+		let bot = parseInt(element.offsetTop+element.offsetHeight);
+		let left = parseInt(element.offsetLeft);
+		let right = parseInt(element.offsetLeft+element.offsetWidth);
+		console.log("bot: "+bot+" top: "+top);
+		console.log("left: "+left+" right: "+right);
+
+
+		if(y>bot || x>right || y<top || x<left){
+			console.log("hide element...");
+			console.log(true);
 			// document.removeEventListener("mousedown", handleClickOutside);
 			return true;	
 		}
 		else{
-			console.log("dont hide menu...");
+			console.log("dont hide element...");
 			// document.removeEventListener("mousedown", handleClickOutside);
 			return false;
 		}
 	}
 
-	const handleClickOutside = (event)=> {
+	const handleMouseOutside = async(event)=> {
 		if(hideMenu===false){
 			if(matchElementEvent(modalMenu,event)){
-				hideMenu=true;
+				 hideMenu=true;
 			}
 			else{hideMenu=false};//is necesary?
 		}

@@ -21,8 +21,8 @@
 
 </script>
 
-<canvas bind:this={canvasSocialSide}></canvas>
 
+<canvas bind:this={canvasSocialSide}></canvas>
 <social bind:this={socialSide}>
     <input style="position:absolute;left:-9999px;" id="justCopy" value="SergioDavidPosse@gmail.com" />
 
@@ -40,18 +40,19 @@
 <style>
     canvas{
         background-color:transparent;
-        width:2%;
-        height:100%;
-        top:0;
+        width:4%;
+        height:40%;
         left:0;
-        position: absolute;
+        top:25%;
+        position:absolute;
     }
+    
     social{
         top:25%;
-        left:-3.9%;
+        left:-3%;
         background-color:rgba(131, 36, 123,1);
         box-shadow: royalblue;
-        width:5%;
+        width:4%;
         height:40%;
         position:absolute;
         display: flex;
@@ -90,5 +91,12 @@
             width:8%;
             height:30%;
         }
+        canvas{
+            position: fixed;
+            left:-5%;
+            top:35%;
+            width:8%;
+            height:30%;
+    }
     }
 </style>

@@ -23,7 +23,7 @@
 
 	<about class="about">
 		<div class="row">
-			<section bind:this={whoEl} on:mousemove={(e)=>handleMousemove(e, "who")} class="card-simple" ><h2>Who i am?</h2>
+			<section bind:this={whoEl} on:mousedown={(e)=>handleMousemove(e, "who")} on:touchmove={(e)=>handleMousemove(e, "who")} on:mousemove={(e)=>handleMousemove(e, "who")} class="card-simple" ><h2>Who i am?</h2>
 				<p>Hello friend! My name is Sergio Posse, im a simple guy interested by every kind of programming but experienced in web development. In my free time i play the guitar and write music, i like experimental or underground bands that blows your mind! Check my 
 					<a style="z-index:120;color:#F2E6FC;"target="_blank" href='https://soundcloud.com/kumikobox'>Soundcloud</a> if you feel curious.</p>
 			</section>
