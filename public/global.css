@@ -5,3 +5,6 @@ html, body {
 	z-index: -3;
 	font-family: 'Lato', sans-serif;
 }
+.social-over{
+	left:0 !important;
+}

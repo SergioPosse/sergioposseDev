@@ -16,6 +16,8 @@
 	let hideMenu;
 
 	let modalMenu;
+	let socialSide;
+	let canvasSocialSide;
 
 	onMount(()=>{
 		window.addEventListener("mousemove",handleClickOutside);
@@ -63,31 +65,45 @@
 
 	setContext('showingFooter', openFooter);
 
-	const handleClickOutside = (event)=> {
-		// console.table(modalMenu);
-		if(hideMenu===false){
-			let x = parseInt(event.clientX);
-		let y = parseInt(event.clientY);
+	const matchElementEvent = (element, event)=>{
+		let x = parseInt(event.clientX);
+		let y = parseInt(event.clientY);element
 		console.log("x: "+x," y: "+y);
-		let modalx = parseInt(modalMenu.clientWidth);
-		let modaly = parseInt(modalMenu.clientHeight);
+		let modalx = parseInt(element.clientWidth);
+		let modaly = parseInt(element.clientHeight);
 		console.log("mx: "+modalx+" my: "+modaly);
 		if((x>modalx)||(y>modaly)){
-			hideMenu=true;
 			console.log("hide modal menu...");
+			// document.removeEventListener("mousedown", handleClickOutside);
+			return true;	
 		}
 		else{
-				console.log("dont hide menu...");
+			console.log("dont hide menu...");
+			// document.removeEventListener("mousedown", handleClickOutside);
+			return false;
 		}
-		// document.removeEventListener("mousedown", handleClickOutside);
+	}
+
+	const handleClickOutside = (event)=> {
+		if(hideMenu===false){
+			if(matchElementEvent(modalMenu,event)){
+				hideMenu=true;
+			}
+			else{hideMenu=false};//is necesary?
 		}
-		
+	
+			if(matchElementEvent(canvasSocialSide,event)){
+				socialSide.classList.remove("social-over");
+			}
+			else{
+				socialSide.classList.add("social-over");
+			}
     }   
 </script>
 
 <main use:watchResize={resize} >
 	<Nav bind:modalMenu={modalMenu} bind:hideMenu={hideMenu}></Nav>
-	<Social></Social>
+	<Social bind:canvasSocialSide={canvasSocialSide} bind:socialSide={socialSide}></Social>
 	<About bind:skillsEl={ skillsEl } bind:whoEl={ whoEl }></About>
 	{#if ((showFooter===true)||(openf===true) )}
 	<Footer></Footer>

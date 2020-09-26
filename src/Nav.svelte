@@ -19,9 +19,6 @@
     </nav>
 
     <script>
-        import { getContext, onMount, setContext } from 'svelte';
-        //lo que exporto aca tengo que hacer un bind en el elemento donde quiero usarlo
-
         export let hideMenu;
 
         export let modalMenu;
@@ -45,12 +42,6 @@
     h4{
         opacity: 0.2;
     }
-    .visible{
-        visibility: show;
-    }
-    .invisible{
-        visibility: hidden;
-    }
     .menu-modal{
         border-radius:0 0 6% 0;
         position: absolute;
@@ -64,10 +55,9 @@
         height:50%;
         width:20%;
         background-color: black;
-        z-index: 500;
+        z-index: 500 !important;
         color:black;
         filter: drop-shadow(16px 16px 20px rgb(255, 255, 255));
-
     }
     .menu-modal span{
         cursor:pointer;
@@ -120,7 +110,7 @@
 			height:10vh !important;
             width:100vw;
             position:fixed;
-            z-index:300;
+            z-index:600 !important;
 		}
         img{
             width:7%;

@@ -97,7 +97,7 @@
         flex-direction: column;
         justify-items: center;
         align-items:center;
-        z-index: 500;
+        z-index: 300 !important;
     }
     .copyright{
         width:100%;

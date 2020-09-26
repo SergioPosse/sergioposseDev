@@ -1,6 +1,9 @@
 <script>
     let visible = false;
     let gmailEl;
+    export let canvasSocialSide;
+    export let socialSide;
+
     const handleGmailOver = ()=>{
         visible = !visible;
     }
@@ -18,8 +21,9 @@
 
 </script>
 
+<canvas bind:this={canvasSocialSide}></canvas>
 
-<social>
+<social bind:this={socialSide}>
     <input style="position:absolute;left:-9999px;" id="justCopy" value="SergioDavidPosse@gmail.com" />
 
     <img src="/images/whatsapp.png" alt="whatsapp" on:click={()=>{ window.open("https://wa.me/5493584849720");}} />
@@ -34,10 +38,18 @@
 
 
 <style>
+    canvas{
+        background-color:transparent;
+        width:2%;
+        height:100%;
+        top:0;
+        left:0;
+        position: absolute;
+    }
     social{
         top:25%;
         left:-3.9%;
-        background-color:rgba(236, 11, 218, 0.2);
+        background-color:rgba(131, 36, 123,1);
         box-shadow: royalblue;
         width:5%;
         height:40%;
@@ -48,10 +60,7 @@
         transition:1s;
         border-radius:5%;
     }
-    social:hover{
-        left:0 !important;
-        transition:1s;
-    }
+    
     social img{
         cursor:pointer;
         height:23%;
