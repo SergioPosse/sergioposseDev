@@ -1,9 +1,10 @@
 html, body {
-	width: 100% ;
+	width: 100vw;
 	margin:0 !important;
 	padding:0 !important;
 	z-index: -3;
 	font-family: 'Lato', sans-serif;
+	background-color:fuchsia;
 }
 .social-over{
 	left:0 !important;

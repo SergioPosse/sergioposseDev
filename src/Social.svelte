@@ -83,13 +83,22 @@
     .invisible{
         visibility: hidden;
     }
+    @keyframes bloop{
+        0%{}
+        100%{
+            width:13%;
+            height:26%;
+        }
+    }
     @media(max-width:640px){
         social{
             position: fixed;
-            left:-5%;
-            top:35%;
-            width:8%;
-            height:30%;
+            left:0%;
+            top:23%;
+            width:12%;
+            height:25%;
+            z-index:3000;
+            animation: bloop 0.9s linear alternate infinite;
         }
         canvas{
             position: fixed;

@@ -1,4 +1,6 @@
 <script>
+	import {fade} from 'svelte/transition';
+
 	export let skillsEl;
 	export let whoEl;
 
@@ -21,7 +23,7 @@
 
 </script>
 
-	<about class="about">
+	<about transition:fade class="about">
 		<div class="row">
 			<section bind:this={whoEl} on:mousedown={(e)=>handleMousemove(e, "who")} on:touchmove={(e)=>handleMousemove(e, "who")} on:mousemove={(e)=>handleMousemove(e, "who")} class="card-simple" ><h2>Who i am?</h2>
 				<p>Hello friend! My name is Sergio Posse, im a simple guy interested by every kind of programming but experienced in web development. In my free time i play the guitar and write music, i like experimental or underground bands that blows your mind! Check my 
@@ -52,6 +54,10 @@
 	</about>
 
 <style>
+
+	.card-simple p{
+		text-shadow: 1px 1px 2px black, 0 0 1em rgb(0, 0, 0), 0 0 0.2em rgb(0, 0, 0);
+	}
 	.img-fluid {
 		position:absolute;
 		top:50%;
@@ -60,13 +66,14 @@
 	}
 	.about{
 		display:flex;
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 		font-size: 1em;
 		font-weight: 100;
 		border-radius: 0.5;
-		width:70%;
-		height:83%;
+		width:75%;
+		height:73%;
 		margin: auto;
+		margin-top:2%;
 		transition: 0.3s;
 		z-index: 6;
 	}
@@ -88,7 +95,7 @@
 		margin:5px;
 		border-radius:6%;
 		padding:10%;
-		font-size: 90%;
+		font-size: 0.8em;
 	}
 	.row{
 		display:flex;
@@ -180,7 +187,7 @@ a{
   	top: var(--y);
   	width: var(--size);
   	height: var(--size);
-  	background: radial-gradient(circle closest-side, rgba(255, 255, 255, 0.5), transparent);
+  	background: radial-gradient(circle closest-side, rgba(216, 255, 126, 0.5), transparent);
   	transform: translate(-50%, -50%);
   	transition: width 0.2s ease, height 0.2s ease;
 }
@@ -215,18 +222,46 @@ a{
 		visibility:visible;
 		transition-delay: 1s;
 	}
+
+	@keyframes flashpass{
+		0%{width:200px;height:200px}
+		100%{left:100%;top:100%;height:400px;width:400px;}
+	}
 	@media (max-width: 640px) {
+		.card-simple:before {
+			--size: 0;
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 0;
+			height: 0;
+			background: radial-gradient(circle closest-side, rgba(216, 255, 126, 0.5), transparent);			transform: translate(-50%, -50%);
+			transition: width 0.2s ease, height 0.2s ease;
+			animation: flashpass 2s linear alternate infinite;
+		}
+			.card-simple:hover:before {
+  			--size: 400px;
+		}
 		.row{
-			width:100%;
+width:100%;	
 		}
 		.about{
-			padding-top:12%;
-			padding-bottom:30%;
+			width:100vw;
+			max-width: 100% !important;
+			height:auto;
+			padding-top:24%;
+			padding-bottom:20%;
 			flex-direction: column;
-			flex-wrap: nowrap !important;
+			justify-content: space-between;
+			align-content: space-between;
 		}
 		section{
-			font-size: 80%;
+			margin:auto;
+			max-height:40vh !important;
+			width:70vw !important;
+			font-size: 4.5vw;
 		}
+		
 	}
 </style>

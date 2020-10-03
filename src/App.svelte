@@ -3,26 +3,33 @@
 	import Nav from './Nav.svelte';
 	import Footer from './Footer.svelte';
 	import Social from './Social.svelte';
+	import Portfolio from './Portfolio.svelte';
+
 	import { onMount, setContext } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { watchResize } from "svelte-watch-resize";
 
-
-	var showFooter = false;
-	let openf=false;
+	//local vars
+	let footerMouseOver;
+	let footer;
 	let reso;
+	//this var set to setContext for studie propousal
+	var showFooter = false;
 
-
+	//imports from childs (in childs same name but "export" specification)
 	let hideMenu;
-
+	let showAbout;
+	let showPortfolio;
 	let modalMenu;
 	let socialSide;
 	let canvasSocialSide;
+	let skillsEl;
+	let whoEl;
 
 	onMount(()=>{
 		window.addEventListener("mousemove",handleMouseOutside);
-		console.dir(modalMenu);
-		hideMenu=true;
+		// console.dir(modalMenu);
+		hideMenu=true; //for example this modified the hideMenu var original from the child exports it
 	})
 
 	const resize = ()=>{
@@ -34,28 +41,6 @@
 			showFooter=false;
 		}
 	}
-	
-
-	let skillsEl;
-	let whoEl;
-
-	// const handleTouchMove = (e)=>{
-
-	// let touchLocation = e.targetTouches[0];
-	// console.log(touchLocation);
-	// let pageX = Math.floor((touchLocation.screenX-touchLocation.target.offsetWidth)) + "px";
-	// let pageY = Math.floor((touchLocation.screenY-touchLocation.target.offsetHeight)) + "px";
-	// console.log("pagex: "+pageX);
-	// console.log("pagey: "+pageY);
-	//    let x =pageX;
-	//    let y =pageY;
-
-	//  	skillsEl.style.setProperty('--x', x + 'px');
-	//  	  skillsEl.style.setProperty('--y', y + 'px');
-
-	//  	whoEl.style.setProperty('--x', x + 'px');
-	//  	  whoEl.style.setProperty('--y', y + 'px');
-	// }
 
 	const openFooter = ()=>{
 		if(reso>640){
@@ -65,33 +50,34 @@
 
 	setContext('showingFooter', openFooter);
 
+	//watch the mouse move for detect if is out or inside the element we pass it
 	const matchElementEvent = (element, event)=>{
 		let x = parseInt(event.clientX);
 		let y = parseInt(event.clientY);
-		console.log("mouse x: "+x," mouse y: "+y);
-
+		// console.log("mouse x: "+x," mouse y: "+y);
 
 		let top = parseInt(element.offsetTop);
 		let bot = parseInt(element.offsetTop+element.offsetHeight);
 		let left = parseInt(element.offsetLeft);
 		let right = parseInt(element.offsetLeft+element.offsetWidth);
-		console.log("bot: "+bot+" top: "+top);
-		console.log("left: "+left+" right: "+right);
-
+		// console.log("bot: "+bot+" top: "+top);
+		// console.log("left: "+left+" right: "+right);
 
 		if(y>bot || x>right || y<top || x<left){
-			console.log("hide element...");
-			console.log(true);
+			// console.log("hide element...");
+			// console.log(true);
 			// document.removeEventListener("mousedown", handleClickOutside);
 			return true;	
 		}
 		else{
-			console.log("dont hide element...");
+			// console.log("dont hide element...");
 			// document.removeEventListener("mousedown", handleClickOutside);
 			return false;
 		}
 	}
 
+	//with helps from the function "matchElementEvent"
+	//i setup here whats elements will be watching
 	const handleMouseOutside = async(event)=> {
 		if(hideMenu===false){
 			if(matchElementEvent(modalMenu,event)){
@@ -99,64 +85,54 @@
 			}
 			else{hideMenu=false};//is necesary?
 		}
-	
+
 			if(matchElementEvent(canvasSocialSide,event)){
 				socialSide.classList.remove("social-over");
 			}
 			else{
 				socialSide.classList.add("social-over");
 			}
+
+			
+
+
     }   
 </script>
 
+
 <main use:watchResize={resize} >
-	<Nav bind:modalMenu={modalMenu} bind:hideMenu={hideMenu}></Nav>
+	<Nav bind:showAbout={showAbout} bind:showPortfolio={showPortfolio} bind:modalMenu={modalMenu} bind:hideMenu={hideMenu}></Nav>
 	<Social bind:canvasSocialSide={canvasSocialSide} bind:socialSide={socialSide}></Social>
-	<About bind:skillsEl={ skillsEl } bind:whoEl={ whoEl }></About>
-	{#if ((showFooter===true)||(openf===true) )}
-	<Footer></Footer>
-	{:else}
-	<div transition:fade class="button-footer" on:click={ openFooter } >
-		<img src="/images/up.png" alt="open-footer" />
-	</div>
+
+		{#if (showAbout)}
+		<About bind:skillsEl={ skillsEl } bind:whoEl={ whoEl }></About>
 	{/if}
+	{#if (!showAbout)}
+		<Portfolio></Portfolio>
+	{/if}
+	
+	
+	<Footer></Footer>
 </main>
 
 <style>
 	main {
-		background-image: url('/images/orion-nebula-big.jpg');
+		background-image: url('/images/galaxy-big.jpg');
 		background-repeat: no-repeat;
 		background-size: stretch;
 		background-position: center center;
 		background-color:black;
-		width:100%;
+		width:100vw;
+		max-width: 100%;
 		height:100vh;
+		max-height:100%;
 		text-align: center;
-		margin:0 !important;
+		margin:0;
 		padding:0 !important;
 		animation: backfloat 5s infinite alternate;
 		display:flex;
 		flex-direction:column;
 		z-index:600;
-	}
-	.button-footer img{
-		position: absolute;
-		top:30%;
-		height:60% !important;
-		filter:invert();
-		cursor:pointer;
-		
-	}
-	.button-footer{
-		position:relative;
-		color:white;
-		padding:2%;
-		margin:0;
-		display:flex;
-		align-content:center;
-		justify-items:center;
-		align-items:center;
-		justify-content: space-evenly;
 	}
 	@keyframes backfloat{
 		0%{
@@ -176,23 +152,17 @@
 	}
 	@media (max-width: 640px) {
 		main {
-			background-image: url('/images/orion-nebula-small.jpg');
-			background-size: 60% 100%;
+			background-color:chartreuse;
+			width:100vw;
+			max-width:100% !important;
+			left:0;
+			background-image: url('/images/galaxy-small.jpg');
 			height:auto;
-			animation: backfloat2 5s infinite alternate;	
+		
+			background-color: burlywood;
+			animation: backfloat2 55s linear infinite alternate;	
 		}
-		.button-footer img{
-			position: relative;
-			width:20%;
-			height:100% !important;
-			filter:invert();
-			cursor:pointer;	
-		}
-		.button-footer{
-			position:relative;
-			color:white;
-			z-index:400;
-		}
+
 	}
 
 </style>
