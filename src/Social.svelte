@@ -34,6 +34,8 @@
 <!-- <a target="_blank" href="https://mailto:agustinacarrizofotografia@gmail.com">mail</a> -->
 
     <img on:click={ ()=>{window.open("https://instagram.com/ssergio.posse");}} src="/images/instagram.png" alt="instagram"/>
+    <img src="/images/cv.png" alt="github" on:click={ ()=>{window.open('https://drive.google.com/file/d/1Dg5-hSmZ-FTeistvXn830X6BkWclCDDx/view?usp=sharing');} } />
+
 </social>
 
 
@@ -50,21 +52,24 @@
     social{
         top:25%;
         left:-3%;
-        background-color:rgba(131, 36, 123,1);
+        background-color:rgba(131, 36, 123,0.3);
         box-shadow: royalblue;
         width:4%;
         height:40%;
         position:absolute;
-        display: flex;
+        display: inline-flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-evenly;
         transition:1s;
         border-radius:5%;
     }
     
     social img{
         cursor:pointer;
-        height:23%;
+        height:20%;
+        margin:2%;
+        /* object-fit: contain; */
+
     }
     .gmail-modal{
         position:absolute;
@@ -86,26 +91,37 @@
     @keyframes bloop{
         0%{}
         100%{
-            width:13%;
-            height:26%;
+            /* height:52%;
+            width:70%; */
         }
     }
     @media(max-width:640px){
         social{
-            position: fixed;
-            left:0%;
-            top:23%;
-            width:12%;
-            height:25%;
+            background-color:transparent;
+            flex-direction:row;
+            width:90%;
             z-index:3000;
-            animation: bloop 0.9s linear alternate infinite;
+            left:0;
+            top:-5%;
+            height:30% !important;
+            justify-items: center;
+            justify-self:center;
+            align-items:center;
+            position:  relative !important;
+            align-content:center !important;
+            display:flex !important;
+            padding:0 !important;
+            
+
         }
-        canvas{
-            position: fixed;
-            left:-5%;
-            top:35%;
-            width:8%;
-            height:30%;
+    social img{
+        padding:0 !important;
+        position: relative;
+        height:100%;
+        object-fit: scale-down;
+        margin: 0 !important;
+        animation: bloop 0.9s linear alternate infinite;
+
     }
     }
 </style>

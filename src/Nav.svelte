@@ -1,15 +1,7 @@
 
 
-
 	<nav>
-        {#if (!hideMenu)}
-        <div bind:this={modalMenu} class="menu-modal">
-            <h4 class="menu-modal-item" style="color:white;background-color:black">Sergio David Posse</h4>
-            <span class="menu-modal-item" style="background-color:rgb(158, 226, 242,0);color:rgb(224, 255, 255,0.7);">Leave a message in this site</span>
-            <span class="menu-modal-item" on:click={ handlePdfClick } style="background-color:rgb(224, 100, 100,0);color:rgb(224, 255, 255,0.7););">View my formal resume</span>
-        </div>
-        {/if}
-        <img on:click={clickMenu} src="/images/menu.png" alt="menu"/>
+        
         <div on:click={()=>{clickNav("about")}} class={!showAbout? "about" : "about over-option-nav"}>
             About
         </div>
@@ -19,20 +11,8 @@
     </nav>
 
     <script>
-        export let hideMenu;
-
-        export let modalMenu;
         export let showAbout = true;
 
-        let visible=false;
-    
-        const clickMenu = ()=>{
-            hideMenu=false;  
-        }
-    
-        const handlePdfClick = ()=>{
-            window.open('/cv-sergiodavidposse.pdf');    
-        }
 
         //optimize in one function later
         const clickNav = (option)=>{
@@ -51,41 +31,7 @@
 
 
 <style>
-    h4{
-        opacity: 0.2;
-    }
-    .menu-modal{
-        border-radius:0 0 6% 0;
-        position: absolute;
-        left:0;
-        top:0;
-        display:flex;
-        flex-direction:column;
-        align-items: stretch;
-        align-content:space-between;
-        justify-content: space-evenly;
-        height:50%;
-        width:20%;
-        background-color: black;
-        z-index: 500 !important;
-        color:black;
-        filter: drop-shadow(16px 16px 20px rgb(255, 255, 255));
-    }
-    .menu-modal span{
-        cursor:pointer;
-        display:flex;
-        justify-content: center;
-        align-content:center;
-        align-items:center;
-        text-align: center;
-        height:20%;
-    }
-    .menu-modal span:hover{
-        border:1px solid papayawhip;
-        background: linear-gradient(14deg, rgba(91,43,152,1) 0%, rgba(121,9,81,1) 89%);
-
-        /* transition:1s; this give me error with the mouseout event*/
-    }
+    
 	nav{
         display:flex;
         justify-content:space-evenly;
@@ -101,12 +47,17 @@
 	}
     .over-option-nav{
         margin:auto;
-        background-color:rgba(239, 129, 129, 0.4);
-        color:#959752 !important;
-        filter: drop-shadow(0px 6px 20px rgb(44, 212, 22))
-
-
+        animation: glow 1s ease-in-out infinite alternate;
     }
+
+    @keyframes glow {
+  from {
+    text-shadow: 0 0 10px rgb(255, 238, 0), 0 0 20px rgb(230, 255, 4), 0 0 30px #36e600, 0 0 40px #82e600, 0 0 50px #00e63a, 0 0 60px #13e600, 0 0 70px #36e600;
+  }
+  to {
+    text-shadow: 0 0 20px rgb(231, 247, 7), 0 0 30px #2a0ae2, 0 0 40px #1b05e4, 0 0 50px #4da0ff, 0 0 60px #4dcdff, 0 0 70px #4ddbff, 0 0 80px #5f4dff;
+  }
+}
     .about, .portfolio{
         height:100%;
         display:flex;
@@ -119,19 +70,20 @@
         width:100%;
     }
     .about{
-        width:86.2%;
+        width:100%;
         margin-left:auto;
         margin-right:auto;
     }
-    img{
-        width:3%;
-        height:85%;
-        padding:2%;
-        filter:invert();
-        cursor:pointer;
-    }
+    
 
 	@media (max-width: 640px) {
+        .over-option-nav{
+            text-shadow: 0 0 10px rgb(255, 238, 0), 0 0 20px rgb(230, 255, 4), 0 0 30px #36e600, 0 0 40px #82e600, 0 0 50px #00e63a, 0 0 60px #13e600, 0 0 70px #36e600;
+
+        margin:auto;
+        animation: none !important;
+    }
+
 		nav{
 			height:10vh !important;
             width:100vw;
@@ -139,16 +91,7 @@
             z-index:10000 !important;
 
 		}
-        img{
-            width:8%;
-            height:55%;
-        }
-        .menu-modal{
-            height:100vh;
-            font-size:1em;
-            width:80% !important;
-            border-radius:0 0 0 0;
-
-        }
+        
+        
 	}
 </style>

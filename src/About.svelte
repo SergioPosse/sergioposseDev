@@ -79,7 +79,7 @@
 	}
 	section{
 		position:relative;
-		background-color: rgba(78, 23, 103, 0);
+		background-color: rgba(78, 23, 103, 0.3);
 		box-shadow: 0 15px 18px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 		color:#e7e7e7 !important;
 		height:30% !important;
@@ -244,7 +244,7 @@ a{
   			--size: 400px;
 		}
 		.row{
-width:100%;	
+			width:100%;	
 		}
 		.about{
 			width:100vw;
@@ -252,16 +252,18 @@ width:100%;
 			height:auto;
 			padding-top:24%;
 			padding-bottom:20%;
+			display:inline-flex;
 			flex-direction: column;
 			justify-content: space-between;
 			align-content: space-between;
+			flex-wrap:wrap;
 		}
 		section{
-			margin:auto;
-			max-height:40vh !important;
+			margin-top:1%;
+			margin:5%;
+			height:auto !important;
 			width:70vw !important;
-			font-size: 4.5vw;
-		}
-		
+			font-size: 5vw;
+		}	
 	}
 </style>

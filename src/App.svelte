@@ -5,50 +5,51 @@
 	import Social from './Social.svelte';
 	import Portfolio from './Portfolio.svelte';
 
-	import { onMount, setContext } from 'svelte';
-	import { fade } from 'svelte/transition';
+	import { onMount } from 'svelte';
 	import { watchResize } from "svelte-watch-resize";
 
 	//local vars
-	let footerMouseOver;
-	let footer;
 	let reso;
+	let hideMenu=true;
+	let modalMenu;
+	let mainRef;
 	//this var set to setContext for studie propousal
-	var showFooter = false;
 
 	//imports from childs (in childs same name but "export" specification)
-	let hideMenu;
 	let showAbout;
 	let showPortfolio;
-	let modalMenu;
 	let socialSide;
 	let canvasSocialSide;
 	let skillsEl;
 	let whoEl;
 
 	onMount(()=>{
+		let vh = window.innerHeight * 0.01;
+		document.documentElement.style.setProperty('--vh', `${vh}px`);
+		
+		mainRef.addEventListener('change', ()=>{
+		});
+
+		reso = window.innerWidth;
 		window.addEventListener("mousemove",handleMouseOutside);
 		// console.dir(modalMenu);
-		hideMenu=true; //for example this modified the hideMenu var original from the child exports it
+		if(reso<640){
+			mainRef.style.setProperty("height", "auto");
+		}
+		hideMenu=true; //for example this modified the hideMenu var original from the child exports it		
 	})
+
+
 
 	const resize = ()=>{
 		reso = window.innerWidth;
-		if(reso<=640){
-			showFooter=true;
+
+		if(reso<640){
+			mainRef.style.setProperty("height", "auto !important");
 		}
 		if(reso>640){
-			showFooter=false;
 		}
 	}
-
-	const openFooter = ()=>{
-		if(reso>640){
-			openf=!openf;
-		}
-	}
-
-	setContext('showingFooter', openFooter);
 
 	//watch the mouse move for detect if is out or inside the element we pass it
 	const matchElementEvent = (element, event)=>{
@@ -96,15 +97,36 @@
 			
 
 
-    }   
+	}  
+	
+	const clickMenu = ()=>{
+		console.log("cliii");
+            hideMenu=false;  
+        }
 </script>
 
+{#if (!hideMenu)}
+<div bind:this={modalMenu} class="menu-modal">
+	<h4 class="menu-modal-item" style="color:white;background-color:black">Sergio David Posse</h4>
+	{#if reso<640}
+		<span>
+			<Social></Social>
+		</span>
+	{/if}
+    <span class="menu-modal-item" style="background-color:rgb(158, 226, 242,0);color:rgb(224, 255, 255,0.7);">Leave a message in this site</span>
+    <!-- <span class="menu-modal-item" on:click={ ()=>{window.open('https://drive.google.com/file/d/1Dg5-hSmZ-FTeistvXn830X6BkWclCDDx/view?usp=sharing');} } style="background-color:rgb(224, 100, 100,0);color:rgb(224, 255, 255,0.7););">View my formal resume</span> -->
+</div>
+{/if}
+<main bind:this={mainRef} use:watchResize={resize} >
+	<img on:click={clickMenu} src="/images/menu.png" alt="menu"/>
 
-<main use:watchResize={resize} >
-	<Nav bind:showAbout={showAbout} bind:showPortfolio={showPortfolio} bind:modalMenu={modalMenu} bind:hideMenu={hideMenu}></Nav>
+
+	<Nav bind:showAbout={showAbout} bind:showPortfolio={showPortfolio}></Nav>
+	{#if reso>	640}
 	<Social bind:canvasSocialSide={canvasSocialSide} bind:socialSide={socialSide}></Social>
+	{/if}
 
-		{#if (showAbout)}
+	{#if (showAbout)}
 		<About bind:skillsEl={ skillsEl } bind:whoEl={ whoEl }></About>
 	{/if}
 	{#if (!showAbout)}
@@ -116,6 +138,18 @@
 </main>
 
 <style>
+	img{
+        width:4%;
+        height:8%;
+        padding:2%;
+		top:0% !important;
+		left:0;
+        filter:invert();
+        cursor:pointer;
+		position:fixed;
+		z-index:11000;
+		object-fit: scale-down;
+    }
 	main {
 		background-image: url('/images/galaxy-big.jpg');
 		background-repeat: no-repeat;
@@ -150,18 +184,70 @@
 			background-size: 100% 100%;
 		}
 	}
+	.menu-modal{
+        border-radius:0 0 6% 0;
+        position: absolute;
+        left:0;
+        top:0;
+        display:flex;
+        flex-direction:column;
+        /* align-items: stretch; */
+        /* align-content:space-between; */
+        justify-content: space-evenly;
+        height:50%;
+        width:20%;
+        background-color: black;
+        z-index: 34500 !important;
+        color:black;
+        filter: drop-shadow(16px 16px 20px rgb(255, 255, 255));
+		text-align: center;
+    }
+    .menu-modal span{
+        cursor:pointer;
+        display:flex;
+        justify-content: center;
+        align-content:center;
+        align-items:center;
+        text-align: center;
+        height:20%;
+    }
+    .menu-modal span:hover{
+        border:1px solid rgb(148, 140, 25);
+        background: linear-gradient(14deg, rgba(91,43,152,1) 0%, rgba(121,9,81,1) 89%);
+
+        /* transition:1s; this give me error with the mouseout event*/
+    }
+	h4{
+        opacity: 0.2;
+    }
+
 	@media (max-width: 640px) {
 		main {
 			background-color:chartreuse;
 			width:100vw;
 			max-width:100% !important;
 			left:0;
-			background-image: url('/images/galaxy-small.jpg');
 			height:auto;
-		
+			background-image: url('/images/galaxy-small.jpg');		
 			background-color: burlywood;
-			animation: backfloat2 55s linear infinite alternate;	
+			animation: none !important;	
 		}
+		.menu-modal{
+			height: calc(var(--vh, 1vh) * 70);
+			font-size: calc(var(--vh, 1vh) * 3);
+			padding: calc(var(--vh, 1vh)* 1);
+            width:80% !important;
+            border-radius:0 0 0 0;
+
+        }
+		img{
+			position:fixed;
+			top:7vh !important;
+			left:1vw;
+            width:13vw;
+			height:8vh;
+			z-index:110000;
+        }
 
 	}
 

@@ -3,7 +3,7 @@
 
 </script>
 
-<footer transition:fade>
+<footer>
     <div class="copyright">
         <h4>Copyright Sergio Posse 2020</h4>
     </div>
