@@ -6,32 +6,31 @@ import { onMount } from 'svelte';
         0:{
             "image": "/images/appogif.gif",
             "url": "",
+            "giturl": "https://github.com/SergioPosse/Appointment-Patients-System---MERN",
             "title": "Medical-Care RioIV - Appointments System for administration",
-            "description": "Proyecto 1 realizado con varias tecnologias javascript, css, HTML. La base de datos seleccionada es MongoDB"
+            "description": "Reactjs introducing hooks to my toolbox and making a calendar from scratch. The database is in the cloud Mongodb ATLAS"
         },
         1:{
-            "image": "/images/b.jpg",
-            "title": "Proyecto 02",
-            "description": "Proyecto 2 realizado con varias tecnologias javascript, css, HTML. La base de datos seleccionada es MongoDB"
+            "image": "/images/blogphp.gif",
+            "url":"https://sergioposse-blogphp.herokuapp.com/",
+            "giturl": "https://github.com/SergioPosse/phpblogMVC",
+            "title": "Blog PHP",
+            "description": "A nice and simple blog, made from scratch with php and mysql. Learning the MVC arquitecture. Frontend made with materialize and the deploy was on Heroku with ClearDb"
         },
         
         2:{
-            "image": "/images/c.jpg",
-            "title": "Proyecto 03",
-            "description": "Proyecto 3 realizado con varias tecnologias javascript, css, HTML. La base de datos seleccionada es MongoDB"
-        },
-        
-        3:{
-            "image": "/images/d.jpg",
-            "title": "Proyecto 04",
-            "description": "Proyecto 4 realizado con varias tecnologias javascript, css, HTML. La base de datos seleccionada es MongoDB"
-        }
+            "image": "/images/siloh.gif",
+            "url": "https://siloh-fumigacion.herokuapp.com/",
+            "giturl": "https://github.com/SergioPosse/SilohFumigacion",
+            "title": "Siloh Fumigacion",
+            "description": "Attention! Password for 'Administrador' is 'admin', for 'Empleado' is 'empleado'. Task manager for a small group of control plague professionals. Materialize and vanilla javascript with xmlhttprequest and PHP backend"
+        } 
     }
 
 
     let selected=0;
     let carouselRef;
-    let firstRef, prevRef, nextRef;
+    let firstRef, prevRef, nextRef,pRef;
 
     let url = false;
 
@@ -98,23 +97,18 @@ import { onMount } from 'svelte';
         let newEl = document.createElement("h3");
         let text = document.createTextNode(current.title);
         newEl.appendChild(text);
-        // if(window.innerWidth>640){
-        //     newEl.style.setProperty('font-size', "1.5vw");
-        // }
-        // else{
-        //     newEl.style.setProperty('font-size', "4vw");
-        // }
-        // newEl.style.setProperty('font-size', "0.9em");
+        
         newEl.style.setProperty('padding', "0.3vw");
         firstRef.parentNode.appendChild(newEl);
         firstRef.style.setProperty('background-image', "url("+current.image+")");
         if(current.url!=""){
             url = true;
+            console.log("url: "+current.url);
         }
         else{
             url=false;
         }
-
+        pRef.innerHTML = current.description;
         prevRef.innerHTML = prev.title;
         prevRef.style.setProperty('background-image', "url("+prev.image+")");
         nextRef.innerHTML = "<p style='color:white;'>"+next.title+"</p>";
@@ -163,9 +157,9 @@ import { onMount } from 'svelte';
                  
                         <div on:touchstart={(e)=>handleTouch(e)} on:touchmove={(e)=>{handleTouchMove(e)}} class={animate? "first animationtesteo" : "first"}>
                             <div class="over">
-                                <div class="git-over" on:click={()=>{window.open("https://github.com/SergioPosse/Appointment-Patients-System---MERN")}}><img src="/images/git-over.png" alt="git"/><h4>Code</h4></div>
-                                <div class={url? "url-over visible" : "url-over invisible"} ><img src="/images/url-over.png" alt="git"/><h4>Web Site</h4></div>
-                                <p>Website created with ReactJs, introducing hooks. The calendar component was made from scratch like mostly project functionalities.</p>
+                                <div class="git-over" on:click={()=>{window.open(works[selected].giturl)}}><img src="/images/git-over.png" alt="git"/><h4>Code</h4></div>
+                                <div on:click={()=>{window.open(works[selected].url)}} class={url? "url-over visible" : "url-over invisible"} ><img src="/images/url-over.png" alt="git"/><h4>Web Site</h4></div>
+                                <p bind:this={pRef} ></p>
                             </div>
                             <div class="first-image" bind:this={firstRef}></div>
                             <img class="swipe" alt="handtouch" src="/images/swipe.png"/>
@@ -255,7 +249,7 @@ import { onMount } from 'svelte';
 
 }
 .first:hover .first-image{
-    opacity:15%;
+    opacity:0%;
 }
 .first:hover .over{
     display:flex;
