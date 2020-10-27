@@ -109,9 +109,6 @@ var app = (function () {
         e.initCustomEvent(type, false, false, detail);
         return e;
     }
-    function query_selector_all(selector, parent = document.body) {
-        return Array.from(parent.querySelectorAll(selector));
-    }
 
     const active_docs = new Set();
     let active = 0;
@@ -1608,68 +1605,69 @@ var app = (function () {
     			t15 = space();
     			div8 = element("div");
     			img6 = element("img");
-    			add_location(h1, file$4, 174, 8, 6441);
-    			attr_dev(p, "class", "svelte-ykqwcu");
-    			add_location(p, file$4, 175, 8, 6489);
-    			attr_dev(div0, "class", "over animate svelte-ykqwcu");
-    			add_location(div0, file$4, 173, 4, 6385);
-    			attr_dev(div1, "class", "over-background svelte-ykqwcu");
-    			add_location(div1, file$4, 172, 0, 6322);
+    			add_location(h1, file$4, 190, 8, 7263);
+    			attr_dev(p, "class", "svelte-brs51r");
+    			add_location(p, file$4, 191, 8, 7311);
+    			attr_dev(div0, "class", "over animate svelte-brs51r");
+    			add_location(div0, file$4, 189, 4, 7207);
+    			attr_dev(div1, "class", "over-background svelte-brs51r");
+    			add_location(div1, file$4, 188, 0, 7144);
     			if (img0.src !== (img0_src_value = "/images/play.png")) attr_dev(img0, "src", img0_src_value);
     			attr_dev(img0, "alt", "previous");
-    			attr_dev(img0, "class", "prev-button svelte-ykqwcu");
-    			add_location(img0, file$4, 183, 28, 6703);
-    			attr_dev(div2, "class", "prev svelte-ykqwcu");
-    			add_location(div2, file$4, 182, 24, 6627);
+    			attr_dev(img0, "class", "prev-button svelte-brs51r");
+    			add_location(img0, file$4, 199, 28, 7525);
+    			attr_dev(div2, "class", "prev svelte-brs51r");
+    			add_location(div2, file$4, 198, 24, 7449);
     			set_style(h3, "position", "absolute");
     			set_style(h3, "left", "10%");
-    			add_location(h3, file$4, 190, 28, 7041);
+    			attr_dev(h3, "class", "fade svelte-brs51r");
+    			add_location(h3, file$4, 206, 28, 7863);
     			if (img1.src !== (img1_src_value = /*works*/ ctx[4][/*selected*/ ctx[0]].image)) attr_dev(img1, "src", img1_src_value);
     			attr_dev(img1, "alt", "project-img");
-    			attr_dev(img1, "class", "svelte-ykqwcu");
-    			add_location(img1, file$4, 193, 32, 7200);
-    			attr_dev(div3, "class", "first-front svelte-ykqwcu");
-    			add_location(div3, file$4, 192, 28, 7141);
+    			attr_dev(img1, "class", "svelte-brs51r");
+    			add_location(img1, file$4, 209, 32, 8040);
+    			attr_dev(div3, "class", "first-front fade svelte-brs51r");
+    			add_location(div3, file$4, 208, 28, 7976);
     			if (img2.src !== (img2_src_value = "/images/git-over.png")) attr_dev(img2, "src", img2_src_value);
     			attr_dev(img2, "alt", "git");
-    			attr_dev(img2, "class", "svelte-ykqwcu");
-    			add_location(img2, file$4, 197, 107, 7481);
-    			add_location(h40, file$4, 197, 150, 7524);
-    			attr_dev(div4, "class", "git-over svelte-ykqwcu");
-    			add_location(div4, file$4, 197, 32, 7406);
+    			attr_dev(img2, "class", "svelte-brs51r");
+    			add_location(img2, file$4, 213, 107, 8326);
+    			add_location(h40, file$4, 213, 150, 8369);
+    			attr_dev(div4, "class", "git-over svelte-brs51r");
+    			add_location(div4, file$4, 213, 32, 8251);
     			if (img3.src !== (img3_src_value = "/images/url-over.png")) attr_dev(img3, "src", img3_src_value);
     			attr_dev(img3, "alt", "git");
-    			attr_dev(img3, "class", "svelte-ykqwcu");
-    			add_location(img3, file$4, 198, 144, 7689);
-    			add_location(h41, file$4, 198, 187, 7732);
+    			attr_dev(img3, "class", "svelte-brs51r");
+    			add_location(img3, file$4, 214, 144, 8534);
+    			add_location(h41, file$4, 214, 187, 8577);
 
     			attr_dev(div5, "class", div5_class_value = "" + (null_to_empty(/*url*/ ctx[2]
     			? "url-over visible"
-    			: "url-over invisible") + " svelte-ykqwcu"));
+    			: "url-over invisible") + " svelte-brs51r"));
 
-    			add_location(div5, file$4, 198, 32, 7577);
-    			attr_dev(button, "class", "svelte-ykqwcu");
-    			add_location(button, file$4, 199, 32, 7789);
-    			attr_dev(div6, "class", "first-menu svelte-ykqwcu");
-    			add_location(div6, file$4, 196, 28, 7348);
-    			attr_dev(img4, "class", "swipe svelte-ykqwcu");
+    			add_location(div5, file$4, 214, 32, 8422);
+    			attr_dev(button, "class", "svelte-brs51r");
+    			add_location(button, file$4, 215, 32, 8634);
+    			attr_dev(div6, "class", "first-menu fade svelte-brs51r");
+    			add_location(div6, file$4, 212, 28, 8188);
+    			attr_dev(img4, "class", "swipe svelte-brs51r");
     			attr_dev(img4, "alt", "handtouch");
     			if (img4.src !== (img4_src_value = "/images/swipe.png")) attr_dev(img4, "src", img4_src_value);
-    			add_location(img4, file$4, 205, 28, 8103);
-    			attr_dev(img5, "class", "touch svelte-ykqwcu");
+    			add_location(img4, file$4, 221, 28, 8948);
+    			attr_dev(img5, "class", "touch svelte-brs51r");
     			attr_dev(img5, "alt", "handtouch");
     			if (img5.src !== (img5_src_value = "/images/handtouch.png")) attr_dev(img5, "src", img5_src_value);
-    			add_location(img5, file$4, 206, 28, 8193);
-    			attr_dev(div7, "class", div7_class_value = "" + (null_to_empty(/*animate*/ ctx[3] ? "first animationtesteo" : "first") + " svelte-ykqwcu"));
-    			add_location(div7, file$4, 187, 24, 6846);
+    			add_location(img5, file$4, 222, 28, 9038);
+    			attr_dev(div7, "class", div7_class_value = "" + (null_to_empty(/*animate*/ ctx[3] ? "first animationtesteo" : "first") + " svelte-brs51r"));
+    			add_location(div7, file$4, 203, 24, 7668);
     			if (img6.src !== (img6_src_value = "/images/play.png")) attr_dev(img6, "src", img6_src_value);
     			attr_dev(img6, "alt", "previous");
-    			attr_dev(img6, "class", "next-button svelte-ykqwcu");
-    			add_location(img6, file$4, 213, 28, 8416);
-    			attr_dev(div8, "class", "next svelte-ykqwcu");
-    			add_location(div8, file$4, 212, 24, 8340);
-    			attr_dev(div9, "class", "carousel svelte-ykqwcu");
-    			add_location(div9, file$4, 180, 8, 6559);
+    			attr_dev(img6, "class", "next-button svelte-brs51r");
+    			add_location(img6, file$4, 229, 28, 9261);
+    			attr_dev(div8, "class", "next svelte-brs51r");
+    			add_location(div8, file$4, 228, 24, 9185);
+    			attr_dev(div9, "class", "carousel svelte-brs51r");
+    			add_location(div9, file$4, 196, 8, 7381);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1738,11 +1736,11 @@ var app = (function () {
 
     			if (dirty & /*url*/ 4 && div5_class_value !== (div5_class_value = "" + (null_to_empty(/*url*/ ctx[2]
     			? "url-over visible"
-    			: "url-over invisible") + " svelte-ykqwcu"))) {
+    			: "url-over invisible") + " svelte-brs51r"))) {
     				attr_dev(div5, "class", div5_class_value);
     			}
 
-    			if (dirty & /*animate*/ 8 && div7_class_value !== (div7_class_value = "" + (null_to_empty(/*animate*/ ctx[3] ? "first animationtesteo" : "first") + " svelte-ykqwcu"))) {
+    			if (dirty & /*animate*/ 8 && div7_class_value !== (div7_class_value = "" + (null_to_empty(/*animate*/ ctx[3] ? "first animationtesteo" : "first") + " svelte-brs51r"))) {
     				attr_dev(div7, "class", div7_class_value);
     			}
     		},
@@ -1798,11 +1796,20 @@ var app = (function () {
     	};
 
     	let selected = 0;
-    	let firstRef, overRef;
+    	let overRef;
     	let url = false;
     	let animate = false;
 
     	const handleClickNext = async () => {
+    		let el = document.querySelector(".first-menu");
+    		el.classList.remove("fade");
+    		void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+    		el.classList.add("fade");
+    		el = document.querySelector(".first-front");
+    		el.classList.remove("fade");
+    		void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+    		el.classList.add("fade");
+
     		for (let i = 0; i < Object.keys(works).length; i++) {
     			if (works[selected] === works[i]) {
     				if (works[selected + 1]) {
@@ -1828,6 +1835,15 @@ var app = (function () {
     	};
 
     	const handleClickPrev = async () => {
+    		let el = document.querySelector(".first-menu");
+    		el.classList.remove("fade");
+    		void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+    		el.classList.add("fade");
+    		el = document.querySelector(".first-front");
+    		el.classList.remove("fade");
+    		void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+    		el.classList.add("fade");
+
     		for (let i = 0; i < Object.keys(works).length; i++) {
     			if (works[selected] === works[i]) {
     				if (works[selected - 1]) {
@@ -1853,17 +1869,13 @@ var app = (function () {
     	};
 
     	const setCarousel = () => {
-    		let current, next, prev;
+    		let current;
+
+    		// let prev,next;
     		current = works[selected];
 
-    		selected - 1 < 0
-    		? prev = works[Object.keys(works).length - 1]
-    		: prev = works[selected - 1];
-
-    		selected + 1 > Object.keys(works).length - 1
-    		? next = works[0]
-    		: next = works[selected + 1];
-
+    		// (selected-1<0) ? prev =  works[Object.keys(works).length-1] : prev = works[selected-1];
+    		// (selected+1>Object.keys(works).length-1) ? next = works[0] : next = works[selected+1];
     		// console.dir(firstRef.parentNode.lastChild);
     		// if(firstRef.parentNode.lastChild.localName === "h3"){
     		//     firstRef.parentNode.removeChild(firstRef.parentNode.lastChild);
@@ -1880,7 +1892,7 @@ var app = (function () {
     		} else {
     			$$invalidate(2, url = false); // console.log("url: "+current.url);
     		}
-    	}; // pRef.innerHTML = current.description;
+    	}; // pRef.innerHTML = current.description
 
     	onMount(() => {
     		// First we get the viewport height and we multiple it by 1% to get a value for a vh unit
@@ -1938,7 +1950,7 @@ var app = (function () {
     		let el = overRef;
     		el.style.setProperty("opacity", "0%");
     		document.querySelector(".over-background").style.setProperty("opacity", "0%");
-    		document.querySelector(".over-background").style.setProperty("z-index", "10000");
+    		document.querySelector(".over-background").style.setProperty("z-index", "1000");
     		document.querySelector(".first").style.setProperty("opacity", "100%");
     		document.querySelector(".next").style.setProperty("opacity", "100%");
     		document.querySelector(".prev").style.setProperty("opacity", "100%");
@@ -1973,10 +1985,8 @@ var app = (function () {
 
     	$$self.$capture_state = () => ({
     		onMount,
-    		query_selector_all,
     		works,
     		selected,
-    		firstRef,
     		overRef,
     		url,
     		animate,
@@ -1993,7 +2003,6 @@ var app = (function () {
     	$$self.$inject_state = $$props => {
     		if ("works" in $$props) $$invalidate(4, works = $$props.works);
     		if ("selected" in $$props) $$invalidate(0, selected = $$props.selected);
-    		if ("firstRef" in $$props) firstRef = $$props.firstRef;
     		if ("overRef" in $$props) $$invalidate(1, overRef = $$props.overRef);
     		if ("url" in $$props) $$invalidate(2, url = $$props.url);
     		if ("animate" in $$props) $$invalidate(3, animate = $$props.animate);

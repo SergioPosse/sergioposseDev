@@ -1,7 +1,6 @@
 <script>
 
 import { onMount } from 'svelte';
-import { query_selector_all } from 'svelte/internal';
 
     let works = {
         0:{
@@ -29,13 +28,19 @@ import { query_selector_all } from 'svelte/internal';
     }
 
     let selected=0;
-    let firstRef, overRef;
-
+    let overRef;
     let url = false;
-
     let animate=false;
     
     const handleClickNext = async ()=>{
+        let el = document.querySelector('.first-menu');
+        el.classList.remove("fade");
+        void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+        el.classList.add("fade");
+        el = document.querySelector('.first-front');
+        el.classList.remove("fade");
+        void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+        el.classList.add("fade");
         for(let i=0; i<Object.keys(works).length; i++){
             if(works[selected]===works[i]){
                 if(works[selected+1]){
@@ -58,6 +63,14 @@ import { query_selector_all } from 'svelte/internal';
     }
 
     const handleClickPrev = async ()=>{
+        let el = document.querySelector('.first-menu');
+        el.classList.remove("fade");
+        void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+        el.classList.add("fade");
+        el = document.querySelector('.first-front');
+        el.classList.remove("fade");
+        void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+        el.classList.add("fade");
         for(let i=0; i<Object.keys(works).length; i++){
             if(works[selected]===works[i]){
                 if(works[selected-1]){
@@ -73,17 +86,18 @@ import { query_selector_all } from 'svelte/internal';
         }
         setTimeout(()=>{
             animate=false;
-            setCarousel();
+            setCarousel();       
         },400);
         animate=true;
         
     }
 
     const setCarousel = ()=>{
-        let current,next,prev;
+        let current;
+        // let prev,next;
         current = works[selected];
-        (selected-1<0) ? prev =  works[Object.keys(works).length-1] : prev = works[selected-1];
-        (selected+1>Object.keys(works).length-1) ? next = works[0] : next = works[selected+1];
+        // (selected-1<0) ? prev =  works[Object.keys(works).length-1] : prev = works[selected-1];
+        // (selected+1>Object.keys(works).length-1) ? next = works[0] : next = works[selected+1];
 
         // console.dir(firstRef.parentNode.lastChild);
         // if(firstRef.parentNode.lastChild.localName === "h3"){
@@ -104,15 +118,17 @@ import { query_selector_all } from 'svelte/internal';
         else{
             url=false;
         }
-        // pRef.innerHTML = current.description;
+        // pRef.innerHTML = current.description
+        
+ 
         
     }
 
     onMount(()=>{
         // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
-    let vh = window.innerHeight * 0.01;
-    // Then we set the value in the --vh custom property to the root of the document
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
+        let vh = window.innerHeight * 0.01;
+        // Then we set the value in the --vh custom property to the root of the document
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
         // console.log(works[0]);
         // console.log(Object.keys(works).length)
         setCarousel(); 
@@ -160,7 +176,7 @@ import { query_selector_all } from 'svelte/internal';
         let el = overRef
         el.style.setProperty('opacity','0%');
         document.querySelector('.over-background').style.setProperty("opacity","0%");
-        document.querySelector('.over-background').style.setProperty("z-index","10000");
+        document.querySelector('.over-background').style.setProperty("z-index","1000");
 
         document.querySelector('.first').style.setProperty("opacity","100%");
         document.querySelector('.next').style.setProperty("opacity","100%");
@@ -188,13 +204,13 @@ import { query_selector_all } from 'svelte/internal';
                         <div class={animate? "first animationtesteo" : "first"} on:touchstart={(e)=>handleTouch(e)} on:touchmove={(e)=>{handleTouchMove(e)}}>
                             
 
-                            <h3 style="position:absolute;left:10%;">{works[selected].title}</h3>
+                            <h3 style="position:absolute;left:10%;" class="fade">{works[selected].title}</h3>
 
-                            <div class="first-front">
+                            <div class="first-front fade">
                                 <img src={works[selected].image} alt="project-img"/>
                             </div>
                             
-                            <div class="first-menu">
+                            <div class="first-menu fade">
                                 <div class="git-over" on:click={()=>{window.open(works[selected].giturl)}}><img src="/images/git-over.png" alt="git"/><h4>Code</h4></div>
                                 <div class={url? "url-over visible" : "url-over invisible"} on:click={()=>{window.open(works[selected].url)}}  ><img src="/images/url-over.png" alt="git"/><h4>Web Site</h4></div>
                                 <button on:click={seeDescription} >See description ...</button>
@@ -218,19 +234,22 @@ import { query_selector_all } from 'svelte/internal';
         </div>
     
 <style>
-    .over-background{
-        position:absolute;
-        left:0;
-        top:0;
-        width:100vw;
-        height:100vh;
-        background-color:rgb(0,0,0,100%);
-        opacity:0%;
 
-    }
-    .animate{
-        animation: bringover 0.5s cubic-bezier(0,1,.37,.32) forwards;
-    }
+.fade{
+    animation:fade 1.5s linear forwards !important;
+}
+.over-background{
+     position:absolute;
+    left:0;
+    top:0;
+    width:100vw;
+    height:100vh;
+    background-color:rgb(0,0,0,100%);
+    opacity:0%;
+}
+.animate{
+    animation: bringover 0.5s cubic-bezier(0,1,.37,.32) forwards;
+}
 .invisible{
     cursor:none;
     filter:grayscale(100);
@@ -256,7 +275,7 @@ import { query_selector_all } from 'svelte/internal';
     width:70%;
     height:70%;
     top:10%;
-    z-index:66333 !important;
+    z-index:656666 !important;
     box-shadow: 0 15px 18px 0 rgba(211, 255, 251, 0.4), 0 6px 20px 0 rgba(255, 254, 254, 0.678);
     display:flex;
     flex-direction:row;
@@ -267,6 +286,8 @@ import { query_selector_all } from 'svelte/internal';
     width:85%;
     align-items:center;
     justify-content: center;
+    opacity:0%;
+
 }
 .first-menu{
     display:flex;
@@ -280,6 +301,7 @@ import { query_selector_all } from 'svelte/internal';
     width:90%;
     height:90%;
     object-fit: contain;
+    
 }
 .first-menu button{
     background:transparent;
@@ -300,6 +322,11 @@ import { query_selector_all } from 'svelte/internal';
     z-index:66336 !important;
     margin:auto;
     font-size: calc(var(--vh, 1vh) * 1);
+    opacity:100%;
+    justify-content:center;
+    justify-items:center;
+    align-items:center;
+    align-content:center;
 }
 
 .git-over,.url-over{
@@ -328,6 +355,8 @@ import { query_selector_all } from 'svelte/internal';
     color:rgba(4, 3, 5, 0.541);
     font-size: calc(var(--vh, 1vh) * 3);
     transition: all 0.8s;
+    width:70%;
+    height:60%;
 }
 .carousel{
     margin:auto;
@@ -340,9 +369,7 @@ import { query_selector_all } from 'svelte/internal';
     position:relative;
     text-align: center;
     flex-wrap:wrap;
-   }
-
-
+}
 
 .next {
     position:absolute;
@@ -352,7 +379,7 @@ import { query_selector_all } from 'svelte/internal';
     background: linear-gradient(14deg, rgb(45, 20, 77,0.35) 50%, rgb(66, 7, 46,0.35) 50%);
     width:30%;
     height:50%;
-    z-index:65;
+    z-index:656665;
     box-shadow: 0 15px 18px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     /* border:1px solid yellow; */
 }
@@ -369,14 +396,14 @@ import { query_selector_all } from 'svelte/internal';
     background: linear-gradient(14deg, rgb(45, 20, 77,0.35) 50%, rgb(66, 7, 46,0.35) 50%);
     width:30%;
     height:50%;
-    z-index:65 !important;
+    z-index:656665 !important;
     box-shadow: 0 15px 18px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     /* border:1px solid fuchsia; */
 }
 .prev-button{
-        transform:rotate(180deg);
-        left:10%;  
-    }
+    transform:rotate(180deg);
+    left:10%;  
+}
 .next-button{
     right:10%;
 }
@@ -393,7 +420,6 @@ import { query_selector_all } from 'svelte/internal';
         0%{
             transform:translateX(0%);
             opacity:20%;
-
         }
         80%{ transform:translateX(50%);}
         85%{
@@ -491,7 +517,7 @@ import { query_selector_all } from 'svelte/internal';
     }
 }
 @keyframes fade{
-    0%{opacity:0%;}50%{opacity: 100%;}
+    0%{opacity:0%;}100%{opacity: 100%;}
 }
 
 @media (max-width: 640px){
