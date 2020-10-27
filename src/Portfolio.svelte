@@ -1,6 +1,7 @@
 <script>
 
 import { onMount } from 'svelte';
+import { query_selector_all } from 'svelte/internal';
 
     let works = {
         0:{
@@ -27,10 +28,8 @@ import { onMount } from 'svelte';
         } 
     }
 
-
     let selected=0;
-    let carouselRef;
-    let firstRef, prevRef, nextRef,pRef;
+    let firstRef, overRef;
 
     let url = false;
 
@@ -39,8 +38,6 @@ import { onMount } from 'svelte';
     const handleClickNext = async ()=>{
         for(let i=0; i<Object.keys(works).length; i++){
             if(works[selected]===works[i]){
-                console.log("selected work: "+works[selected]);
-                console.log("selected i : "+works[i]);
                 if(works[selected+1]){
                     selected++
                     console.log("sel: "+selected);
@@ -63,8 +60,6 @@ import { onMount } from 'svelte';
     const handleClickPrev = async ()=>{
         for(let i=0; i<Object.keys(works).length; i++){
             if(works[selected]===works[i]){
-                console.log("selected work: "+works[selected]);
-                console.log("selected i : "+works[i]);
                 if(works[selected-1]){
                     selected--
                     console.log("sel: "+selected);
@@ -90,29 +85,26 @@ import { onMount } from 'svelte';
         (selected-1<0) ? prev =  works[Object.keys(works).length-1] : prev = works[selected-1];
         (selected+1>Object.keys(works).length-1) ? next = works[0] : next = works[selected+1];
 
-        console.dir(firstRef.parentNode.lastChild);
-        if(firstRef.parentNode.lastChild.localName === "h3"){
-            firstRef.parentNode.removeChild(firstRef.parentNode.lastChild);
-        }
-        let newEl = document.createElement("h3");
-        let text = document.createTextNode(current.title);
-        newEl.appendChild(text);
+        // console.dir(firstRef.parentNode.lastChild);
+        // if(firstRef.parentNode.lastChild.localName === "h3"){
+        //     firstRef.parentNode.removeChild(firstRef.parentNode.lastChild);
+        // }
+        // let newEl = document.createElement("h3");
+        // let text = document.createTextNode(current.title);
+        // newEl.appendChild(text);
         
-        newEl.style.setProperty('padding', "0.3vw");
-        firstRef.parentNode.appendChild(newEl);
-        firstRef.style.setProperty('background-image', "url("+current.image+")");
+        // newEl.style.setProperty('padding', "0.3vw");
+        // firstRef.parentNode.appendChild(newEl);
+        // firstRef.style.setProperty('background-image', "url("+current.image+")");
+        // firstRef.style.setProperty('animation',"fade 1s linear forwards")
         if(current.url!=""){
             url = true;
-            console.log("url: "+current.url);
+            // console.log("url: "+current.url);
         }
         else{
             url=false;
         }
-        pRef.innerHTML = current.description;
-        prevRef.innerHTML = prev.title;
-        prevRef.style.setProperty('background-image', "url("+prev.image+")");
-        nextRef.innerHTML = "<p style='color:white;'>"+next.title+"</p>";
-        nextRef.style.setProperty('background-image', "url("+next.image+")");
+        // pRef.innerHTML = current.description;
         
     }
 
@@ -121,14 +113,14 @@ import { onMount } from 'svelte';
     let vh = window.innerHeight * 0.01;
     // Then we set the value in the --vh custom property to the root of the document
     document.documentElement.style.setProperty('--vh', `${vh}px`);
-        console.log(works[0]);
-        console.log(Object.keys(works).length)
+        // console.log(works[0]);
+        // console.log(Object.keys(works).length)
         setCarousel(); 
     })
 
 
+    //mobile behaviour for touch instead mouse
     let xDown;
-
     const handleTouch = (e)=>{
         console.dir(e)
         xDown = e.touches[0].clientX;                                      
@@ -148,32 +140,276 @@ import { onMount } from 'svelte';
         xDown = null;
     }
 
+    const seeDescription = ()=>{
+        let el = overRef
 
+        el.style.setProperty('display','flex');
+        el.style.setProperty('opacity','100%');
+
+        document.querySelector('.over-background').style.setProperty("opacity","80%");
+        document.querySelector('.over-background').style.setProperty("z-index","1000000");
+        document.querySelector('.first').style.setProperty("opacity","0%");
+        document.querySelector('.next').style.setProperty("opacity","0%");
+        document.querySelector('.prev').style.setProperty("opacity","0%");
+        el.classList.remove("animate");
+        void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+        el.classList.add("animate");
+
+    }
+    const closeDescription = ()=>{
+        let el = overRef
+        el.style.setProperty('opacity','0%');
+        document.querySelector('.over-background').style.setProperty("opacity","0%");
+        document.querySelector('.over-background').style.setProperty("z-index","10000");
+
+        document.querySelector('.first').style.setProperty("opacity","100%");
+        document.querySelector('.next').style.setProperty("opacity","100%");
+        document.querySelector('.prev').style.setProperty("opacity","100%");
+
+    }
+
+    
 </script>
+<div class="over-background" on:click={closeDescription}>
+    <div class="over animate" bind:this={overRef}>
+        <h1 on:click={closeDescription}>X</h1>
+        <p>{works[selected].description}</p>
+    </div>
+</div>
 
-        <div bind:this={carouselRef} class="carousel">
+
+        <div class="carousel">
                   
-                        <div  on:click={handleClickPrev} bind:this={prevRef} class="prev"></div>
+                        <div  on:click={handleClickPrev} class="prev">
+                            <img src="/images/play.png" alt="previous" class="prev-button"/>
+                        </div>
                  
-                        <div on:touchstart={(e)=>handleTouch(e)} on:touchmove={(e)=>{handleTouchMove(e)}} class={animate? "first animationtesteo" : "first"}>
-                            <div class="over">
-                                <div class="git-over" on:click={()=>{window.open(works[selected].giturl)}}><img src="/images/git-over.png" alt="git"/><h4>Code</h4></div>
-                                <div on:click={()=>{window.open(works[selected].url)}} class={url? "url-over visible" : "url-over invisible"} ><img src="/images/url-over.png" alt="git"/><h4>Web Site</h4></div>
-                                <p bind:this={pRef} ></p>
-                            </div>
-                            <div class="first-image" bind:this={firstRef}></div>
-                            <img class="swipe" alt="handtouch" src="/images/swipe.png"/>
 
+                        <div class={animate? "first animationtesteo" : "first"} on:touchstart={(e)=>handleTouch(e)} on:touchmove={(e)=>{handleTouchMove(e)}}>
+                            
+
+                            <h3 style="position:absolute;left:10%;">{works[selected].title}</h3>
+
+                            <div class="first-front">
+                                <img src={works[selected].image} alt="project-img"/>
+                            </div>
+                            
+                            <div class="first-menu">
+                                <div class="git-over" on:click={()=>{window.open(works[selected].giturl)}}><img src="/images/git-over.png" alt="git"/><h4>Code</h4></div>
+                                <div class={url? "url-over visible" : "url-over invisible"} on:click={()=>{window.open(works[selected].url)}}  ><img src="/images/url-over.png" alt="git"/><h4>Web Site</h4></div>
+                                <button on:click={seeDescription} >See description ...</button>
+                            </div>
+                            
+                            <!-- <div class="first-image" bind:this={firstRef}>
+                                
+                            </div> -->
+                            <img class="swipe" alt="handtouch" src="/images/swipe.png"/>
                             <img class="touch" alt="handtouch" src="/images/handtouch.png"/>
                         </div>
                  
-                        <div  on:click={handleClickNext} bind:this={nextRef} class="next">
+
+
+
+                        <div  on:click={handleClickNext} class="next">
+                            <img src="/images/play.png" alt="previous" class="next-button"/>
                         </div>
          
                     
         </div>
     
 <style>
+    .over-background{
+        position:absolute;
+        left:0;
+        top:0;
+        width:100vw;
+        height:100vh;
+        background-color:rgb(0,0,0,100%);
+        opacity:0%;
+
+    }
+    .animate{
+        animation: bringover 0.5s cubic-bezier(0,1,.37,.32) forwards;
+    }
+.invisible{
+    cursor:none;
+    filter:grayscale(100);
+    pointer-events:none;
+
+}
+/* .first:hover .first-image{
+    opacity:0%;
+}
+.first:hover .over{
+    display:flex;
+    opacity:100%;
+    transition: all 0.8s;
+    transition-delay: 1s;
+    animation: bringover 0.5s cubic-bezier(0,1,.37,.32) forwards;
+}
+} */
+.first {
+    font-size: calc(var(--vh, 1vh) * 1.7);
+    color:rgb(206, 193, 175);
+    position:relative;
+    background: linear-gradient(14deg, rgba(91,43,152,1) 0%, rgba(121,9,81,1) 89%);
+    width:70%;
+    height:70%;
+    top:10%;
+    z-index:66333 !important;
+    box-shadow: 0 15px 18px 0 rgba(211, 255, 251, 0.4), 0 6px 20px 0 rgba(255, 254, 254, 0.678);
+    display:flex;
+    flex-direction:row;
+}
+.first-front{
+    display:flex;
+    flex-direction:column;
+    width:85%;
+    align-items:center;
+    justify-content: center;
+}
+.first-menu{
+    display:flex;
+    flex-direction:column;
+    width:15%;
+    align-items:center;
+    justify-content: space-evenly;
+    padding-right:1.8rem;
+}
+.first-front img{
+    width:90%;
+    height:90%;
+    object-fit: contain;
+}
+.first-menu button{
+    background:transparent;
+    width:80%;
+    cursor:pointer; 
+    border:none;
+    color:rgb(190, 175, 175);
+    text-decoration: underline;
+}
+.over{
+    position:absolute;
+    display:none;
+    padding:1rem;
+    flex-direction:row-reverse;
+    width:50%;
+    top:15%;
+    height:50%;
+    z-index:66336 !important;
+    margin:auto;
+    font-size: calc(var(--vh, 1vh) * 1);
+}
+
+.git-over,.url-over{
+    width:80% !important;
+    cursor:pointer;
+    display:flex;
+    justify-content: space-evenly;
+    align-items:center;
+    padding:0.3rem;
+    flex-direction: column;
+    opacity:100% !important;
+    font-size: calc(var(--vh, 0.7vh) * 2);
+    /* box-shadow: 0 15px 18px 0 rgba(211, 255, 251, 0.4), 0 6px 20px 0 rgba(255, 254, 254, 0.678); */
+    object-fit: contain;
+
+}
+.git-over img, .url-over img{
+    width:40%;
+    object-fit: contain;
+}
+
+.over p{
+    background-color:rgb(201, 147, 206);
+    text-align:center;
+    padding:1rem;
+    color:rgba(4, 3, 5, 0.541);
+    font-size: calc(var(--vh, 1vh) * 3);
+    transition: all 0.8s;
+}
+.carousel{
+    margin:auto;
+    width:80%;
+    height:96%;
+    flex-direction:column;
+    display: flex;
+    align-items: center;
+    /* background-color: blue; */
+    position:relative;
+    text-align: center;
+    flex-wrap:wrap;
+   }
+
+
+
+.next {
+    position:absolute;
+    right:0;
+    top:17%;
+    display:flex;
+    background: linear-gradient(14deg, rgb(45, 20, 77,0.35) 50%, rgb(66, 7, 46,0.35) 50%);
+    width:30%;
+    height:50%;
+    z-index:65;
+    box-shadow: 0 15px 18px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* border:1px solid yellow; */
+}
+
+.prev:hover,.next:hover{
+    cursor:pointer;
+}
+
+.prev {
+    display:flex;
+    position:absolute;
+    left:0;
+    top:17%;
+    background: linear-gradient(14deg, rgb(45, 20, 77,0.35) 50%, rgb(66, 7, 46,0.35) 50%);
+    width:30%;
+    height:50%;
+    z-index:65 !important;
+    box-shadow: 0 15px 18px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* border:1px solid fuchsia; */
+}
+.prev-button{
+        transform:rotate(180deg);
+        left:10%;  
+    }
+.next-button{
+    right:10%;
+}
+.prev-button,.next-button{
+    top:35%;
+    position: absolute;
+    filter:invert();
+    width:20%;
+    object-fit: contain;
+}
+
+.animationtesteo{animation: testeo 2s linear infinite !important;}
+@keyframes bringover{
+        0%{
+            transform:translateX(0%);
+            opacity:20%;
+
+        }
+        80%{ transform:translateX(50%);}
+        85%{
+            transform:translateX(47%);
+        }
+        90%{
+            transform:translateX(50%);
+        }
+        95%{
+            transform:translateX(47%);
+        }
+        100%{
+            transform:translateX(50%);
+            opacity:100%;
+        }
+    }
     .swipe{
         filter:invert();
         position:absolute;
@@ -241,159 +477,29 @@ import { onMount } from 'svelte';
             visibility: hidden;
         }
     }
-
-.invisible{
-    cursor:none;
-    filter:grayscale(100);
-    pointer-events:none;
-
-}
-.first:hover .first-image{
-    opacity:0%;
-}
-.first:hover .over{
-    display:flex;
-    opacity:100%;
-
-}
-.first:hover .git-over,.url-over{
-    cursor:pointer;
-}
-
-.over{
-    position:absolute;
-    display:none;
-    padding:1rem;
-    flex-direction:row-reverse;
-    width:90%;
-    height:80%;
-    z-index: 10000;
-    margin:auto;
-    font-size: calc(var(--vh, 1vh) * 1);
-;
-}
-.over img{
-    width:50%;
-}
-.git-over,.url-over{
-    display:flex;
-    justify-content: center;
-    align-items:center;
-    padding:0.7rem;
-    flex-direction: column;
-    height:30%;
-    width:20%;
-    border:1px solid black;
-    margin:0.7rem;
-    background-color:white;
-    opacity:100% !important;
-    font-size: calc(var(--vh, 1vh) * 2);
-
-    box-shadow: 0 15px 18px 0 rgba(211, 255, 251, 0.4), 0 6px 20px 0 rgba(255, 254, 254, 0.678);
-
-}
-.over p{
-    background-color:rgb(201, 147, 206);
-    text-align:center;
-    padding:1rem;
-    color:rgba(4, 3, 5, 0.541);
-    font-size: calc(var(--vh, 1vh) * 3);
-;
-
-}
-
-.first-image{
-    width:80%;
-    height:80%;
-    background-size:cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    z-index: 19999;
-    margin:auto;
-    display:flex;
-    margin-top:1%;
-
-}
-.carousel{
-    margin:auto;
-    width:80%;
-    height:96%;
-    flex-direction:column;
-    display: flex;
-    align-items: center;
-    /* background-color: blue; */
-    position:relative;
-    text-align: center;
-    flex-wrap:wrap;
-   }
-
-.first {
-    font-size: calc(var(--vh, 1vh) * 1.7);
-    color:rgb(206, 193, 175);
-    position:relative;
-    background: linear-gradient(14deg, rgba(91,43,152,1) 0%, rgba(121,9,81,1) 89%);
-        /* background-color:rgba(255, 255, 255, 0.8); */
-     width:70%;
-    height:70%;
-    top:10%;
-    z-index:66333 !important;
-    box-shadow: 0 15px 18px 0 rgba(211, 255, 251, 0.4), 0 6px 20px 0 rgba(255, 254, 254, 0.678);
-    /* border:1px solid red; */
-}
-
-.next {
-    position:absolute;
-    right:0;
-    top:17%;
-    background-size:cover;
-    /* background-color: rgb(165, 42, 159); */
-    width:30%;
-    height:50%;
-    z-index:65;
-    box-shadow: 0 15px 18px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    /* border:1px solid yellow; */
-}
-
-.next:hover{
-    cursor:pointer;
-    box-shadow: 0 15px 18px 0 rgba(211, 255, 251, 0.4), 0 6px 20px 0 rgba(255, 254, 254, 0.678);
-}
-.prev:hover{
-    cursor:pointer;
-    box-shadow: 0 15px 18px 0 rgba(211, 255, 251, 0.4), 0 6px 20px 0 rgba(255, 254, 254, 0.678);
-}
-.prev {
-    position:absolute;
-    left:0;
-    top:17%;
-    background-size:cover;
-    /* background-color: rgb(165, 42, 159); */
-    width:30%;
-    height:50%;
-    z-index:65 !important;
-    box-shadow: 0 15px 18px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    /* border:1px solid fuchsia; */
-}
-
-.animationtesteo{animation: testeo 2s linear infinite !important;}
-@keyframes testeo{0%{}50%{width:55%;height:75%;}100%{left:45%;}
+@keyframes testeo{0%{}50%{width:75%;height:75%;}100%{transform: translateX(10%);}
 }
 @keyframes testeosmall{
     0%{
     }
     50%{
-        width:85%;
-        height:55%;
+        width:93%;
+        height:67%;
     }
     100%{
-        left:45%;
+        transform: translateX(5%);
     }
+}
+@keyframes fade{
+    0%{opacity:0%;}50%{opacity: 100%;}
 }
 
 @media (max-width: 640px){
 
 .animationtesteo{animation: testeosmall 2s linear infinite !important;}
-
+.prev-button,.next-button{
+    visibility: hidden;
+}
 .carousel{
     margin-left:auto;
     height: calc(var(--vh, 1vh) * 95);
@@ -402,37 +508,34 @@ import { onMount } from 'svelte';
     align-items: center !important;
     justify-content: center !important;
     align-content: center !important;
-
     text-align: center;
 }
 
-   .first{
-       top:0%;
-       height:65%;
-       width:90% !important;
-       z-index:800;
-
-   }
-   .prev{
+.first{
+    top:0%;
+    height:65%;
+    width:90% !important;
+    z-index:800;
+}
+.prev{
     top:27% !important;
     height:65%;
     width:80%;
     left:5%;
     border:1px solid white;
-
    }
-   .next{
-       border:1px solid white;
+.next{
+    background: linear-gradient(14deg, rgb(45, 20, 77,0.99) 50%, rgb(66, 7, 46,0.99) 50%);   
+    border:1px solid white;
     top:23%;
     left:8%;
     height:65%;
     width:81%;
    }
-   .first:hover{
+.first:hover{
     width:90vw;
     height:65%;
 }
-
 .over{
     position:absolute;
     display:none;
@@ -442,9 +545,6 @@ import { onMount } from 'svelte';
     height:80% !important;
     z-index: 10000;
     margin:auto;
-}
-.over img{
-    width:50%;
 }
 .git-over,.url-over{
     display:flex;
@@ -459,7 +559,6 @@ import { onMount } from 'svelte';
     background-color:white;
     opacity:100% !important;
     box-shadow: 0 15px 18px 0 rgba(211, 255, 251, 0.4), 0 6px 20px 0 rgba(255, 254, 254, 0.678);
-
 }
 .over p{
     background-color:rgb(201, 147, 206);
@@ -469,7 +568,8 @@ import { onMount } from 'svelte';
     color:rgba(4, 3, 5, 0.541);
     font-size: calc(var(--vh, 1vh) * 2);
 }
-.first:hover .over{
+
+/* .first:hover .over{
     display:flex;
     flex-direction:row-reverse;
     opacity:100%;
@@ -477,18 +577,16 @@ import { onMount } from 'svelte';
     justify-items:stretch;
     align-items:center;
     justify-content: space-evenly;
-
+} */
+.swipe{
+    visibility: visible;
+    animation: swipe 1s alternate forwards;
+    animation-iteration-count: 3;
 }
-    .swipe{
-        visibility: visible;
-        animation: swipe 1s alternate forwards;
-        animation-iteration-count: 3;
-    }
-    .touch{
-        visibility:visible;
-        animation: touch 0.8s linear forwards;
-        animation-iteration-count: 4;
-    }
-
+.touch{
+    visibility:visible;
+    animation: touch 0.8s linear forwards;
+    animation-iteration-count: 4;
+}
 }
 </style>
