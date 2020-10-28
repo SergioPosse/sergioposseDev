@@ -1,6 +1,8 @@
 <script>
 
 import { onMount } from 'svelte';
+import { watchResize } from "svelte-watch-resize";
+
 
     let works = {
         0:{
@@ -31,64 +33,93 @@ import { onMount } from 'svelte';
     let overRef;
     let url = false;
     let animate=false;
+    let reso;
     
     const handleClickNext = async ()=>{
-        let el = document.querySelector('.first-menu');
-        el.classList.remove("fade");
-        void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
-        el.classList.add("fade");
-        el = document.querySelector('.first-front');
-        el.classList.remove("fade");
-        void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
-        el.classList.add("fade");
-        for(let i=0; i<Object.keys(works).length; i++){
-            if(works[selected]===works[i]){
-                if(works[selected+1]){
-                    selected++
-                    console.log("sel: "+selected);
-                    break;
-                }
-                else{
-                    selected = 0;
-                    break;
-                }          
-            }     
+        let duration;
+        if(reso<640){
+            duration=200;
         }
+        else{
+            duration=1000;
+        }
+
+        animate=true; //first animation happend with current image and then when TIMEOUT change the selected work
+
         setTimeout(()=>{
             animate=false;
             setCarousel();
-        },400);
-        animate=true;
+            let el = document.querySelector('.first-menu');
+            el.classList.remove("fade");
+            void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+            el.classList.add("fade");
+            el = document.querySelector('.first-front');
+            el.classList.remove("fade");
+            void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+            el.classList.add("fade");
+            for(let i=0; i<Object.keys(works).length; i++){
+                if(works[selected]===works[i]){
+                    if(works[selected+1]){
+                        selected++
+                        console.log("sel: "+selected);
+                        break;
+                    }
+                    else{
+                        selected = 0;
+                        break;
+                    }          
+                }     
+            }
+
+        },duration); //this is the complete time for the multiple animation "testeo" and "testeo2" from the class .animationtesteo
+        //wich is loaded dinamically with the boolear var "animate" in the html div tag
+ 
+        
+        
         
     }
 
     const handleClickPrev = async ()=>{
-        let el = document.querySelector('.first-menu');
-        el.classList.remove("fade");
-        void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
-        el.classList.add("fade");
-        el = document.querySelector('.first-front');
-        el.classList.remove("fade");
-        void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
-        el.classList.add("fade");
-        for(let i=0; i<Object.keys(works).length; i++){
-            if(works[selected]===works[i]){
-                if(works[selected-1]){
-                    selected--
-                    console.log("sel: "+selected);
-                    break;
-                }
-                else{
-                    selected = Object.keys(works).length-1;
-                    break;
-                }          
-            }     
+        let duration;
+        if(reso<640){
+            duration=200;
         }
+        else{
+            duration=1000;
+        }
+
+        animate=true;
+
+
         setTimeout(()=>{
             animate=false;
-            setCarousel();       
-        },400);
-        animate=true;
+            setCarousel();
+            let el = document.querySelector('.first-menu');
+            el.classList.remove("fade");
+            void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+            el.classList.add("fade");
+            el = document.querySelector('.first-front');
+            el.classList.remove("fade");
+            void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
+            el.classList.add("fade");
+            for(let i=0; i<Object.keys(works).length; i++){
+                if(works[selected]===works[i]){
+                    if(works[selected-1]){
+                        selected--
+                        console.log("sel: "+selected);
+                        break;
+                    }
+                    else{
+                        selected = Object.keys(works).length-1;
+                        break;
+                    }          
+                }     
+            }
+
+        },duration);
+        
+       
+        
         
     }
 
@@ -131,8 +162,14 @@ import { onMount } from 'svelte';
         document.documentElement.style.setProperty('--vh', `${vh}px`);
         // console.log(works[0]);
         // console.log(Object.keys(works).length)
+        reso = window.innerWidth;
+
         setCarousel(); 
     })
+
+	const resize = ()=>{
+		reso = window.innerWidth;
+	}
 
 
     //mobile behaviour for touch instead mouse
@@ -194,7 +231,7 @@ import { onMount } from 'svelte';
 </div>
 
 
-        <div class="carousel">
+        <div class="carousel" use:watchResize={resize}>
                   
                         <div  on:click={handleClickPrev} class="prev">
                             <img src="/images/play.png" alt="previous" class="prev-button"/>
@@ -204,7 +241,7 @@ import { onMount } from 'svelte';
                         <div class={animate? "first animationtesteo" : "first"} on:touchstart={(e)=>handleTouch(e)} on:touchmove={(e)=>{handleTouchMove(e)}}>
                             
 
-                            <h3 style="position:absolute;left:10%;" class="fade">{works[selected].title}</h3>
+                            <h3 class="fade">{works[selected].title}</h3>
 
                             <div class="first-front fade">
                                 <img src={works[selected].image} alt="project-img"/>
@@ -213,14 +250,14 @@ import { onMount } from 'svelte';
                             <div class="first-menu fade">
                                 <div class="git-over" on:click={()=>{window.open(works[selected].giturl)}}><img src="/images/git-over.png" alt="git"/><h4>Code</h4></div>
                                 <div class={url? "url-over visible" : "url-over invisible"} on:click={()=>{window.open(works[selected].url)}}  ><img src="/images/url-over.png" alt="git"/><h4>Web Site</h4></div>
-                                <button on:click={seeDescription} >See description ...</button>
+                                <button on:click={seeDescription}  class="see-description">See description ...</button>
                             </div>
                             
                             <!-- <div class="first-image" bind:this={firstRef}>
                                 
                             </div> -->
                             <img class="swipe" alt="handtouch" src="/images/swipe.png"/>
-                            <img class="touch" alt="handtouch" src="/images/handtouch.png"/>
+                            <!-- <img class="touch" alt="handtouch" src="/images/handtouch.png"/> -->
                         </div>
                  
 
@@ -279,10 +316,18 @@ import { onMount } from 'svelte';
     box-shadow: 0 15px 18px 0 rgba(211, 255, 251, 0.4), 0 6px 20px 0 rgba(255, 254, 254, 0.678);
     display:flex;
     flex-direction:row;
+    align-items:center;
+    align-content:center;
+}
+
+.first h3{
+    position:absolute;
+    left:10%;
+    top:0;
 }
 .first-front{
     display:flex;
-    flex-direction:column;
+    flex-direction:row;
     width:85%;
     align-items:center;
     justify-content: center;
@@ -415,7 +460,32 @@ import { onMount } from 'svelte';
     object-fit: contain;
 }
 
-.animationtesteo{animation: testeo 2s linear infinite !important;}
+.animationtesteo{
+    animation-name: testeo, testeo2;
+    animation-duration: 500ms, 500ms;
+    animation-delay: 0ms,500ms !important; /* add this */
+    animation-timing-function: linear, linear;
+    animation-fill-mode: forwards, initial;
+
+}
+@keyframes testeo{
+    0%{
+    }
+    100%{
+        transform:scale(1.1,1.1);
+    }
+}
+@keyframes testeo2{
+    0%{
+        transform:scale(1.1,1.1);
+
+    }
+    100%{
+        transform:scale(1.1,1.1);
+
+        transform: translateY(1000%);
+    }
+}
 @keyframes bringover{
         0%{
             transform:translateX(0%);
@@ -433,6 +503,16 @@ import { onMount } from 'svelte';
         }
         100%{
             transform:translateX(50%);
+            opacity:100%;
+        }
+    }
+    @keyframes bringoversmall{
+        0%{
+            transform:translateY(-500%);
+            opacity:20%;
+        }
+        100%{
+            transform:translateY(-20%);
             opacity:100%;
         }
     }
@@ -455,62 +535,9 @@ import { onMount } from 'svelte';
         }
 
     }
-    .touch{
-        filter:invert();
-        position:absolute;
-        right:3%;
-        top:5%;
-        width:37%;
-        object-fit: scale-down;
-        visibility: hidden;
 
-    }
-    @keyframes touch{
-        0%{
-            right:30%;
-            top:30%;
-        }
-        50%{
-            right:30%;
-            top:30%;
-        }
-        75%{
-            right:30%;
-            top:30%;
-            /* width:20%; */
-            transform:scale(1.1);
-
-        }
-        85%{
-            right:30%;
-            top:30%;
-            /* width:35%; */
-            transform:scale(1.0);
-        }
-        90%{
-            right:30%;
-            top:30%;
-            /* width:25%; */
-            transform:scale(1.1);
-
-        }
-        100%{
-            right:30%;
-            top:30%;
-            /* width:30%; */
-            transform:scale(1.0);
-            display:none;
-            visibility: hidden;
-        }
-    }
-@keyframes testeo{0%{}50%{width:75%;height:75%;}100%{transform: translateX(10%);}
-}
 @keyframes testeosmall{
     0%{
-    }
-    50%{
-        width:93%;
-        height:67%;
     }
     100%{
         transform: translateX(5%);
@@ -522,7 +549,12 @@ import { onMount } from 'svelte';
 
 @media (max-width: 640px){
 
-.animationtesteo{animation: testeosmall 2s linear infinite !important;}
+.animationtesteo{
+    animation-name: testeosmall;
+    animation-duration: 400ms;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
 .prev-button,.next-button{
     visibility: hidden;
 }
@@ -546,22 +578,19 @@ import { onMount } from 'svelte';
 .prev{
     top:27% !important;
     height:65%;
-    width:80%;
-    left:5%;
+    width:90%;
+    left:-7%;
     border:1px solid white;
    }
 .next{
-    background: linear-gradient(14deg, rgb(45, 20, 77,0.99) 50%, rgb(66, 7, 46,0.99) 50%);   
+    background: linear-gradient(14deg, rgb(45, 20, 77,1) 50%, rgb(66, 7, 46,1) 100%);   
     border:1px solid white;
     top:23%;
-    left:8%;
+    left:-2.5%;
     height:65%;
-    width:81%;
+    width:90%;
    }
-.first:hover{
-    width:90vw;
-    height:65%;
-}
+
 .over{
     position:absolute;
     display:none;
@@ -571,20 +600,6 @@ import { onMount } from 'svelte';
     height:80% !important;
     z-index: 10000;
     margin:auto;
-}
-.git-over,.url-over{
-    display:flex;
-    justify-content: center;
-    align-items:center;
-    padding:0.7rem;
-    flex-direction: row;
-    height:20% !important;
-    width:20%;
-    border:1px solid black;
-    margin:0.7rem;
-    background-color:white;
-    opacity:100% !important;
-    box-shadow: 0 15px 18px 0 rgba(211, 255, 251, 0.4), 0 6px 20px 0 rgba(255, 254, 254, 0.678);
 }
 .over p{
     background-color:rgb(201, 147, 206);
@@ -609,10 +624,59 @@ import { onMount } from 'svelte';
     animation: swipe 1s alternate forwards;
     animation-iteration-count: 3;
 }
-.touch{
-    visibility:visible;
-    animation: touch 0.8s linear forwards;
-    animation-iteration-count: 4;
+.first {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    align-content:center;
+    justify-content: center;
+   
+}
+.first h3{
+    align-self:center;
+}
+.first-front{
+    display:flex;
+    flex-direction:row;
+    width:98%;
+    height:auto;
+    align-items:center;
+    justify-content: center !important;
+    justify-items:center;
+    justify-content: center;
+    opacity:0%;
+}
+.first-menu{
+    display:flex;
+    flex-direction:row;
+    width:80%;
+    height:auto;
+    align-items:center;
+    justify-content: center !important;
+    align-self:center;
+    padding-left:2rem;
+    padding-top:1rem;
+}
+.first-front img{
+    width:90%;
+    height:100%;  
+}
+.first-menu button{
+    background:transparent;
+    width:100%;
+    cursor:pointer; 
+    border:none;
+    color:rgb(190, 175, 175);
+    text-decoration: underline;
+}
+.animate{
+    animation: bringoversmall 0.5s cubic-bezier(0,1,.37,.32) forwards;
+}
+.see-description{
+    position:absolute;
+    bottom:2%;
+    left:0%;
+    padding:1.4rem;
 }
 }
 </style>
