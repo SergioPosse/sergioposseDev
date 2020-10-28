@@ -34,21 +34,14 @@ import { watchResize } from "svelte-watch-resize";
     let url = false;
     let animate=false;
     let reso;
+    let animDuration;
     
     const handleClickNext = async ()=>{
-        let duration;
-        if(reso<640){
-            duration=200;
-        }
-        else{
-            duration=1000;
-        }
 
         animate=true; //first animation happend with current image and then when TIMEOUT change the selected work
 
         setTimeout(()=>{
             animate=false;
-            setCarousel();
             let el = document.querySelector('.first-menu');
             el.classList.remove("fade");
             void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
@@ -70,30 +63,15 @@ import { watchResize } from "svelte-watch-resize";
                     }          
                 }     
             }
-
-        },duration); //this is the complete time for the multiple animation "testeo" and "testeo2" from the class .animationtesteo
-        //wich is loaded dinamically with the boolear var "animate" in the html div tag
- 
-        
-        
-        
+            setCarousel();
+        },animDuration); //this is the complete time for the multiple animation "testeo" and "testeo2" from the class .animationtesteo
+        //wich is loaded dinamically with the boolear var "animate" in the html div tag   
     }
 
     const handleClickPrev = async ()=>{
-        let duration;
-        if(reso<640){
-            duration=200;
-        }
-        else{
-            duration=1000;
-        }
-
         animate=true;
-
-
         setTimeout(()=>{
             animate=false;
-            setCarousel();
             let el = document.querySelector('.first-menu');
             el.classList.remove("fade");
             void el.offsetWidth; // trigger a DOM reflow //taken from stackoverflow
@@ -115,12 +93,8 @@ import { watchResize } from "svelte-watch-resize";
                     }          
                 }     
             }
-
-        },duration);
-        
-       
-        
-        
+            setCarousel();
+        },animDuration);
     }
 
     const setCarousel = ()=>{
@@ -129,7 +103,6 @@ import { watchResize } from "svelte-watch-resize";
         current = works[selected];
         // (selected-1<0) ? prev =  works[Object.keys(works).length-1] : prev = works[selected-1];
         // (selected+1>Object.keys(works).length-1) ? next = works[0] : next = works[selected+1];
-
         // console.dir(firstRef.parentNode.lastChild);
         // if(firstRef.parentNode.lastChild.localName === "h3"){
         //     firstRef.parentNode.removeChild(firstRef.parentNode.lastChild);
@@ -137,22 +110,11 @@ import { watchResize } from "svelte-watch-resize";
         // let newEl = document.createElement("h3");
         // let text = document.createTextNode(current.title);
         // newEl.appendChild(text);
-        
         // newEl.style.setProperty('padding', "0.3vw");
         // firstRef.parentNode.appendChild(newEl);
         // firstRef.style.setProperty('background-image', "url("+current.image+")");
         // firstRef.style.setProperty('animation',"fade 1s linear forwards")
-        if(current.url!=""){
-            url = true;
-            // console.log("url: "+current.url);
-        }
-        else{
-            url=false;
-        }
-        // pRef.innerHTML = current.description
-        
- 
-        
+        current.url!="" ? url = true : url=false;
     }
 
     onMount(()=>{
@@ -164,6 +126,7 @@ import { watchResize } from "svelte-watch-resize";
         // console.log(Object.keys(works).length)
         reso = window.innerWidth;
 
+        reso < 640 ? animDuration=200 : animDuration=1000;
         setCarousel(); 
     })
 
@@ -527,10 +490,10 @@ import { watchResize } from "svelte-watch-resize";
     }
     @keyframes swipe{
         0%{
-            left:10%;
+            transform:translateX(-20%);
         }
         100%{
-            left:70%;
+            transform:translateX(200%);
             visibility: hidden;
         }
 

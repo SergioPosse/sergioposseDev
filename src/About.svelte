@@ -224,25 +224,31 @@ a{
 	}
 
 	@keyframes flashpass{
-		0%{width:200px;height:200px}
-		100%{left:100%;top:100%;height:400px;width:400px;}
+		0%{
+			transform:translateY(0%);
+			transform:translateX(0%);
+			transform:scale(1,1);
+
+		}
+		100%{
+			transform:translateY(0%);
+			transform:scale(1.4,1.4);
+			transform:translateX(80%);
+		}
 	}
 	@media (max-width: 640px) {
 		.card-simple:before {
-			--size: 0;
 			content: '';
 			position: absolute;
-			left: 0;
-			top: 0;
-			width: 0;
-			height: 0;
-			background: radial-gradient(circle closest-side, rgba(216, 255, 126, 0.5), transparent);			transform: translate(-50%, -50%);
+			left: 0%;
+			top: 0% !important;
+			width: 60%;
+			height: 50%;
+			background: radial-gradient(circle closest-side, rgba(216, 255, 126, 0.5), transparent);
 			transition: width 0.2s ease, height 0.2s ease;
 			animation: flashpass 2s linear alternate infinite;
 		}
-			.card-simple:hover:before {
-  			--size: 400px;
-		}
+
 		.row{
 			width:100%;	
 		}

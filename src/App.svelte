@@ -151,10 +151,6 @@
 		object-fit: scale-down;
     }
 	main {
-		background-image: url('/images/galaxy-big.jpg');
-		background-repeat: no-repeat;
-		background-size: stretch;
-		background-position: center center;
 		background-color:black;
 		width:100vw;
 		max-width: 100%;
@@ -163,25 +159,39 @@
 		text-align: center;
 		margin:0;
 		padding:0 !important;
-		animation: backfloat 5s infinite alternate;
 		display:flex;
 		flex-direction:column;
 		z-index:600;
+		overflow:hidden;
 	}
+	main::before {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: -1;
+			background-image: url('/images/galaxy-big.jpg');
+			background-size: cover;
+			background-position: center center;
+			background-repeat: no-repeat;
+			animation: backfloat 7s ease infinite alternate !important;	
+		}
 	@keyframes backfloat{
 		0%{
-			background-size: 110% 110%;
+			transform: scale(1,1);
 		}
 		100%{
-			background-size: 100% 100%;
+			transform: scale(1.5,1.5);
 		}
 	}
 	@keyframes backfloat2{
 		0%{
-			background-size: 300% 300%;
+			transform: scale(1,1);
 		}
 		100%{
-			background-size: 100% 100%;
+			transform: scale(1.7,1.7);
 		}
 	}
 	.menu-modal{
@@ -222,15 +232,27 @@
     }
 
 	@media (max-width: 640px) {
+		main::before {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: -1;
+			background-image: url('/images/the-night-sky-2401702_1920.jpg');
+			background-size: cover;
+			background-position: center center;
+			background-repeat: no-repeat;
+			animation: backfloat2 6s ease-in-out infinite alternate !important;	
+		}
 		main {
-			background-color:chartreuse;
+			overflow:hidden;
 			width:100vw;
 			max-width:100% !important;
 			left:0;
 			height:auto;
-			background-image: url('/images/galaxy-small.jpg');		
-			background-color: burlywood;
-			animation: none !important;	
+			background-image: none;
 		}
 		.menu-modal{
 			height: calc(var(--vh, 1vh) * 70);
