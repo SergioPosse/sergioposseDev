@@ -60,8 +60,9 @@
 	}
 	.img-fluid {
 		position:absolute;
-		top:50%;
-		width:18%;
+		top:10%;
+		left:10%;
+		width:10%;
 		transition: 0s;
 	}
 	.about{
@@ -79,9 +80,9 @@
 	}
 	section{
 		position:relative;
-		background-color: rgba(78, 23, 103, 0.3);
-		box-shadow: 0 15px 18px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-		color:#e7e7e7 !important;
+		background-color:var(--main-purple-beta);
+		box-shadow: 0 15px 18px 0 var(--dark-beta), 0 6px 20px 0 var(--dark-beta);
+		color:var(--l-purple) !important;
 		height:30% !important;
 		max-height: 30%;
 		min-height:30% !important;
@@ -106,7 +107,7 @@
 	}
 .card-simple{
   border: none;
-  color: white !important;
+  color: var(--l-purple) !important;
   outline: none;
   position:relative;
 }
@@ -136,23 +137,21 @@
 	border-top:none !important;
 	border-left:none !important;
 }
-.card-over:hover:before, .card-over:hover:after{
-	border:none !important;
-}
+
 @keyframes bordershine{
 	50%{
 		height:100%;
 		width:0%;
 		border-bottom:none !important;
 		border-right:none !important;
-		border:1px solid  rgb(247, 27, 181);
+		border:1px solid var(--yellow);
 	}
 	100%{
 		width:100%;
 		height:100%;
 		border-bottom:none !important;
 		border-right:none !important;
-		border:1px solid white;
+		border:1px solid var(--l-purple);
 	}
 }
 @keyframes bordershine2{
@@ -161,7 +160,7 @@
 		height:100%;
 		border-top:none !important;
 		border-left:none !important;
-		border:1px solid white;
+		border:1px solid var(--yellow);
 	}
 	100%{
 		width:100%;
@@ -169,7 +168,7 @@
 
 		border-top:none !important;
 		border-left:none !important;
-		border:1px solid rgb(247, 27, 181);
+		border:1px solid var(--l-purple);
 	}
 
 }
@@ -187,7 +186,7 @@ a{
   	top: var(--y);
   	width: var(--size);
   	height: var(--size);
-  	background: radial-gradient(circle closest-side, rgba(216, 255, 126, 0.5), transparent);
+  	background: radial-gradient(circle closest-side,var(--yellow), transparent);
   	transform: translate(-50%, -50%);
   	transition: width 0.2s ease, height 0.2s ease;
 }
@@ -199,29 +198,13 @@ a{
 		transition: 1s;
 		border:none;
 		outline:none;
-	}
-	.card-over p, .card-over strong{
-		color:transparent;
-		transition: 1s;
-	}
-	.card-over:hover{
-		background-color:rgba(75, 12, 128, 0.89);
-		transition: 1s;
-		border:0px !important;
-	}
-	.card-over:hover p, .card-over:hover strong{
-		color:white !important;
+		cursor:pointer;
 		font-weight: 300px;
-		transition: 4s;
+		color:white !important;
+		background-color:var(--h-purple);
+
 	}
-	.card-over:hover .img-fluid{
-		visibility: hidden;
-		transition-delay: 0s;
-	}
-	.card-over .img-fluid{
-		visibility:visible;
-		transition-delay: 1s;
-	}
+	
 
 	@keyframes flashpass{
 		0%{
@@ -244,7 +227,7 @@ a{
 			top: 0% !important;
 			width: 60%;
 			height: 50%;
-			background: radial-gradient(circle closest-side, rgba(216, 255, 126, 0.5), transparent);
+			background: radial-gradient(circle closest-side, var(--yellow), transparent);
 			transition: width 0.2s ease, height 0.2s ease;
 			animation: flashpass 2s linear alternate infinite;
 		}
@@ -256,20 +239,21 @@ a{
 			width:100vw;
 			max-width: 100% !important;
 			height:auto;
-			padding-top:24%;
+			padding-top:10%;
 			padding-bottom:20%;
-			display:inline-flex;
+			display:flex;
+			gap:5%;
 			flex-direction: column;
-			justify-content: space-between;
-			align-content: space-between;
 			flex-wrap:wrap;
 		}
 		section{
-			margin-top:1%;
-			margin:5%;
-			height:auto !important;
-			width:70vw !important;
-			font-size: 5vw;
+			display:flex;
+			align-self:center;
+			justify-self:center;
+			margin-top:1% !important;
+			height:50vh !important;
+			width:60vw !important;
+			font-size: 90%;
 		}	
 	}
 </style>

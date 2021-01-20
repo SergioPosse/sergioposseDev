@@ -4,6 +4,8 @@ import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import svg from 'rollup-plugin-svelte-svg';
+// import copy from 'rollup-plugin-copy'
+import copy from 'rollup-plugin-copy-watch'
 
 
 
@@ -42,6 +44,17 @@ export default {
 		// whatsapp: '/images/whatsapp.svg'
 	},
 	plugins: [
+		copy({
+			// the watch option is passed directly to Chokidar, so it can be a file,
+			// dir, array or glob(s)
+			watch: 'static',
+	   
+			targets: [
+			  { src: 'src/index.html', dest: 'dist/public' },
+			  { src: ['assets/fonts/arial.woff', 'assets/fonts/arial.woff2'], dest: 'dist/public/fonts' },
+			  { src: 'assets/images/**/*', dest: 'dist/public/images' }
+			]
+		  }),
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,

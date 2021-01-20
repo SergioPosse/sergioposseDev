@@ -1,6 +1,5 @@
 <script>
     import { fade } from 'svelte/transition';
-
 </script>
 
 <footer>
@@ -14,9 +13,8 @@
         bottom:0;
         width:100vw;
         max-width: 100% !important;
-        background: rgb(91,43,152);
-        background: linear-gradient(176deg, rgba(91,43,152,1) 0%, rgba(0,0,0,1) 51%);
-        color:thistle;
+        background: var(--dark);
+        color:var(--l-purple);
         height:4%;
         display:flex;
         flex-direction: column;
@@ -42,8 +40,7 @@
             position: absolute;
         }
         .copyright{
-            color:white;;
+            color:var(--l-purple);;
         }
     }
-
 </style>

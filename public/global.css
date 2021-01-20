@@ -4,8 +4,23 @@ html, body {
 	padding:0 !important;
 	z-index: -3;
 	font-family: 'Lato', sans-serif;
-	background-color:fuchsia;
+	background-color:rgb(49, 4, 49);
 }
 .social-over{
 	left:0 !important;
+}
+:root{
+	--light:0.3;
+	--beta: 0.5;
+	--alpha:0.8;
+	--yellow:rgb(209, 218, 136,0.4);
+	--l-purple:rgb(187, 166, 170);
+	--m-purple: rgba(240, 140, 174);
+	--h-purple:rgba(77, 45, 82);
+	--dark:rgba(29, 26, 49);
+	--dark-alpha:rgba(29,26,49,0.8);
+	--dark-beta:rgba(29,26,49,0.4);
+	--main-purple: rgba(154, 76, 149);
+	--main-purple-alpha:rgba(154, 76, 149, 0.8);
+	--main-purple-beta:rgba(154, 76, 149,0.4);
 }
